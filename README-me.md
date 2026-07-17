@@ -457,12 +457,9 @@ http://localhost:5000
 
 
 
-git init
-
 git add .
 git commit -m "Update project"
 git push
-
 
 git init
 git add .
