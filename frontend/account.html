@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>حساب کاربری من | خورشید</title>
+<script src="assets/js/theme-init.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: { extend: {
+      colors: { khorshid: { 950:'#081020', 900:'#0F2A4A', 800:'#153A63', 700:'#1B4F8C', 600:'#2668AC', 500:'#3E7CB8', 300:'#8FBBDE', 100:'#E4EEF8', 50:'#F5F9FD' }, sun: { 500:'#F2A83B', 400:'#F5BE64' } },
+      fontFamily: { display: ['Vazirmatn','sans-serif'], body: ['Vazirmatn','sans-serif'] },
+    } },
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+  body { font-family: 'Vazirmatn', sans-serif; }
+  .font-mono { font-family: '"IBM Plex Mono"', monospace; }
+  #delivery-map { height: 320px; border-radius: 1rem; z-index: 0; }
+</style>
+</head>
+<body class="bg-khorshid-50 text-khorshid-950 antialiased dark:bg-khorshid-950 dark:text-khorshid-100">
+
+<header class="sticky top-0 z-40 border-b border-khorshid-100/80 bg-khorshid-50/90 backdrop-blur dark:border-white/5 dark:bg-khorshid-950/90">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
+    <a href="index.html" class="flex items-center gap-2.5">
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-khorshid-700 text-sun-400">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      </span>
+      <span class="font-display text-lg font-extrabold text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
+    </a>
+    <div class="flex items-center gap-2">
+      <button data-lang-toggle class="rounded-full border border-khorshid-200 px-3 py-1.5 text-xs font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5">
+        <span data-lang-label>English</span>
+      </button>
+      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 text-sm hover:bg-khorshid-100 dark:border-white/10 dark:hover:bg-white/5">
+        <span data-theme-icon>🌙</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="mx-auto max-w-3xl px-5 py-10">
+  <h1 class="font-display text-2xl font-bold text-khorshid-950 dark:text-white" data-i18n="account_page.title">حساب کاربری من</h1>
+  <p class="mt-2 text-sm text-khorshid-600 dark:text-khorshid-400" data-i18n="account_page.subtitle">اطلاعات، آدرس و امنیت حساب خود را مدیریت کنید.</p>
+
+  <div id="account-content" class="mt-8 space-y-6">
+
+    <!-- PROFILE: avatar + name + phone -->
+    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
+      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.tab_profile">اطلاعات حساب</h2>
+
+      <div class="mt-5 flex items-center gap-4">
+        <div class="relative shrink-0">
+          <span id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-2xl font-bold text-white"></span>
+          <input id="avatar-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
+        </div>
+        <div>
+          <button id="avatar-button" type="button" class="rounded-xl border border-khorshid-200 px-4 py-2 text-sm font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5" data-i18n="account_page.avatar_change">تغییر عکس پروفایل</button>
+          <p class="mt-1.5 text-xs text-khorshid-500 dark:text-khorshid-400" data-i18n="account_page.avatar_hint">فرمت مجاز: JPG، PNG، WEBP یا GIF — حداکثر ۱۰ مگابایت</p>
+        </div>
+      </div>
+
+      <form id="profile-form" class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="auth.first_name">نام</label>
+          <input name="first_name" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="auth.last_name">نام خانوادگی</label>
+          <input name="last_name" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.phone_label">شماره موبایل</label>
+          <input name="phone" data-i18n-placeholder="account_page.phone_placeholder" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <p id="profile-message" class="hidden sm:col-span-2 text-xs"></p>
+        <div class="sm:col-span-2">
+          <button type="submit" class="rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.save_button">ذخیره تغییرات</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ADDRESS: same map mechanism as checkout -->
+    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
+      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.address_title">آدرس ثبت‌شده</h2>
+      <p class="mt-1 text-sm text-khorshid-600 dark:text-khorshid-400" data-i18n="account_page.address_desc">روی نقشه بزنید یا نشانگر را جابه‌جا کنید تا آدرس دقیق شما ذخیره شود.</p>
+      <div class="relative mt-4">
+        <div id="delivery-map"></div>
+        <div id="address-confirm-panel" class="hidden absolute inset-x-3 bottom-3 flex items-start gap-2.5 rounded-xl border border-khorshid-100 bg-white/95 p-3.5 text-sm shadow-lg backdrop-blur dark:border-white/10 dark:bg-khorshid-900/95">
+          <span id="address-confirm-status" class="mt-0.5 shrink-0">📍</span>
+          <div class="min-w-0">
+            <p class="text-[11px] font-medium text-khorshid-500 dark:text-khorshid-400" data-i18n="cart_page.delivery_confirmed">موقعیت تحویل ثبت شد</p>
+            <p id="address-confirm-text" class="mt-0.5 truncate text-khorshid-900 dark:text-khorshid-100"></p>
+          </div>
+        </div>
+      </div>
+      <p id="address-message" class="mt-3 hidden text-xs"></p>
+      <button id="address-save" type="button" class="mt-4 rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.save_address_button">ذخیره آدرس</button>
+    </div>
+
+    <!-- SECURITY: change password -->
+    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
+      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.tab_security">امنیت</h2>
+      <form id="password-form" class="mt-5 grid gap-4 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.current_password">رمز عبور فعلی</label>
+          <input name="current_password" type="password" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.new_password">رمز عبور جدید</label>
+          <input name="new_password" type="password" required minlength="6" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <div>
+          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.confirm_password">تکرار رمز عبور جدید</label>
+          <input name="confirm_password" type="password" required minlength="6" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+        </div>
+        <p id="password-message" class="hidden sm:col-span-2 text-xs"></p>
+        <div class="sm:col-span-2">
+          <button type="submit" class="rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.change_password_button">تغییر رمز عبور</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/map.js"></script>
+<script src="assets/js/account.js"></script>
+</body>
+</html>
