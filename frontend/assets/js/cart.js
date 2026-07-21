@@ -21,6 +21,7 @@
   function writeCart(items) {
     localStorage.setItem(KEY, JSON.stringify(items));
     updateBadge();
+    document.dispatchEvent(new CustomEvent("khorshid:cart-changed", { detail: { items } }));
   }
 
   // returns { added: number, cappedAt: number|null } so the UI can tell the
@@ -43,12 +44,17 @@
         name_fa: product.name_fa,
         name_en: product.name_en,
         price: product.price,
+        image: product.image || null,
         stock: stock,
         qty: newQty,
       });
     }
     writeCart(items);
-    return { added: newQty - currentQty, cappedAt };
+    const result = { added: newQty - currentQty, cappedAt };
+    if (result.added > 0) {
+      document.dispatchEvent(new CustomEvent("khorshid:item-added", { detail: { product, result } }));
+    }
+    return result;
   }
 
   function removeItem(id) {

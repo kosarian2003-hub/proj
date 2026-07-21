@@ -129,6 +129,12 @@ CREATE TABLE IF NOT EXISTS reviews (
     created_at TEXT NOT NULL,
     UNIQUE(product_id, user_id)
 );
+
+CREATE TABLE IF NOT EXISTS blocked_delivery_dates (
+    date TEXT PRIMARY KEY,
+    reason TEXT,
+    created_at TEXT NOT NULL
+);
 """
 
 
@@ -372,7 +378,7 @@ def update_avatar(user_id, avatar_path):
 def order_to_dict(row):
     if row is None:
         return None
-    return {
+    d = {
         "id": row["id"], "user_id": row["user_id"],
         "customer": json.loads(row["customer_json"]), "items": json.loads(row["items_json"]),
         "delivery": json.loads(row["delivery_json"]), "subtotal": row["subtotal"],
@@ -381,6 +387,10 @@ def order_to_dict(row):
         "total": row["total"], "status": row["status"], "stock_sync_error": row["stock_sync_error"],
         "created_at": row["created_at"], "paid_at": row["paid_at"],
     }
+    # present only on rows fetched via get_all_orders()'s join with users
+    if "user_email" in row.keys():
+        d["user_email"] = row["user_email"]
+    return d
 
 
 def count_orders_for_user(user_id):
@@ -432,7 +442,11 @@ def get_orders_for_user(user_id):
 
 def get_all_orders():
     with get_conn() as conn:
-        rows = conn.execute("SELECT * FROM orders ORDER BY created_at DESC").fetchall()
+        rows = conn.execute(
+            "SELECT orders.*, users.email AS user_email FROM orders "
+            "LEFT JOIN users ON users.id = orders.user_id "
+            "ORDER BY orders.created_at DESC"
+        ).fetchall()
     return [order_to_dict(r) for r in rows]
 
 
@@ -485,6 +499,36 @@ def get_all_coupons():
     with get_conn() as conn:
         rows = conn.execute("SELECT * FROM coupons ORDER BY created_at DESC").fetchall()
     return [dict(r) for r in rows]
+
+
+# --------------------------------------------------------------------------- #
+# blocked delivery dates
+# --------------------------------------------------------------------------- #
+def get_blocked_dates():
+    with get_conn() as conn:
+        rows = conn.execute("SELECT * FROM blocked_delivery_dates ORDER BY date ASC").fetchall()
+    return [dict(r) for r in rows]
+
+
+def is_date_blocked(date_str):
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT 1 FROM blocked_delivery_dates WHERE date = ?", (date_str,)
+        ).fetchone()
+    return row is not None
+
+
+def block_delivery_date(date_str, reason=None):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT OR REPLACE INTO blocked_delivery_dates (date, reason, created_at) VALUES (?,?,?)",
+            (date_str, reason, datetime.utcnow().isoformat()),
+        )
+
+
+def unblock_delivery_date(date_str):
+    with get_conn() as conn:
+        conn.execute("DELETE FROM blocked_delivery_dates WHERE date = ?", (date_str,))
 
 
 # --------------------------------------------------------------------------- #

@@ -60,14 +60,21 @@
       const tr = document.createElement("tr");
       const itemsText = o.items.map((i) => `${i.name} × ${i.qty}`).join("، ");
       const customerName = `${o.customer.first_name || ""} ${o.customer.last_name || ""}`.trim() || "—";
+      const phone = (o.customer && o.customer.phone) || "—";
+      const email = o.user_email || "—";
       const address = o.delivery && o.delivery.address
         ? o.delivery.address
         : (o.delivery && o.delivery.lat ? `${o.delivery.lat}, ${o.delivery.lng}` : "—");
+      const slot = o.delivery && o.delivery.slot;
+      const slotText = slot ? `${slot.day_label || ""} / ${slot.window_label || ""}`.trim() : "—";
       tr.innerHTML = `
         <td class="px-4 py-3 font-mono text-xs">#${o.id}</td>
         <td class="px-4 py-3">${customerName}</td>
+        <td class="px-4 py-3 font-mono text-xs">${phone}</td>
+        <td class="px-4 py-3 font-mono text-xs">${email}</td>
         <td class="px-4 py-3 text-xs text-khorshid-600 dark:text-khorshid-400">${itemsText}</td>
         <td class="px-4 py-3 max-w-[16rem] text-xs text-khorshid-600 dark:text-khorshid-400">${address}${o.delivery && o.delivery.note ? `<br><span class="text-khorshid-400">${o.delivery.note}</span>` : ""}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-xs text-khorshid-600 dark:text-khorshid-400">${slotText}</td>
         <td class="px-4 py-3 font-mono">${formatToman(o.total)}</td>
         <td class="px-4 py-3 text-xs text-khorshid-500">${new Date(o.created_at).toLocaleDateString("fa-IR")}</td>
         <td class="px-4 py-3"></td>`;
@@ -137,6 +144,99 @@
     });
   }
 
+  function dayPartsFa(date, idx) {
+    let weekday = "", dayNum = String(date.getDate()), month = "";
+    try {
+      const parts = new Intl.DateTimeFormat("fa-IR-u-ca-persian", { weekday: "short", day: "numeric", month: "short" }).formatToParts(date);
+      weekday = (parts.find((p) => p.type === "weekday") || {}).value || "";
+      dayNum = (parts.find((p) => p.type === "day") || {}).value || dayNum;
+      month = (parts.find((p) => p.type === "month") || {}).value || "";
+    } catch (e) { /* fall back to plain numbers already set above */ }
+    if (idx === 0) weekday = "امروز";
+    else if (idx === 1) weekday = "فردا";
+    return { weekday, dayNum, month };
+  }
+
+  function toISODate(date) {
+    const y = date.getFullYear(), m = String(date.getMonth() + 1).padStart(2, "0"), d = String(date.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+  }
+
+  function renderDeliveryDayPicker(blockedList) {
+    const box = document.getElementById("delivery-day-picker");
+    if (!box) return;
+    const blockedMap = {};
+    blockedList.forEach((d) => { blockedMap[d.date] = d.reason || ""; });
+
+    box.innerHTML = "";
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    for (let i = 0; i < 21; i++) {
+      const date = new Date(today);
+      date.setDate(date.getDate() + i);
+      const iso = toISODate(date);
+      const blocked = Object.prototype.hasOwnProperty.call(blockedMap, iso);
+      const parts = dayPartsFa(date, i);
+
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className =
+        "flex shrink-0 flex-col items-center justify-center rounded-2xl border-2 px-3 py-2.5 min-w-[62px] transition-all " +
+        (blocked
+          ? "border-rose-600 bg-rose-600 text-white shadow-md shadow-rose-600/20"
+          : "border-khorshid-100 bg-white text-khorshid-900 hover:border-khorshid-300 hover:bg-khorshid-50 dark:border-white/10 dark:bg-khorshid-950/30 dark:text-khorshid-100 dark:hover:border-white/20 dark:hover:bg-white/5");
+      btn.innerHTML = `
+        <span class="text-[10px] font-medium ${blocked ? "text-white/80" : "text-khorshid-500 dark:text-khorshid-400"}">${parts.weekday}</span>
+        <span class="mt-1 text-lg font-extrabold leading-none">${parts.dayNum}</span>
+        <span class="mt-0.5 text-[10px] ${blocked ? "text-white/80" : "text-khorshid-400 dark:text-khorshid-500"}">${parts.month}</span>`;
+      btn.title = blocked ? `غیرفعال — کلیک کنید تا دوباره فعال شود${blockedMap[iso] ? " (" + blockedMap[iso] + ")" : ""}` : "کلیک کنید تا این روز غیرفعال شود";
+      btn.addEventListener("click", async () => {
+        if (blocked) {
+          await KhorshidAPI.post(`/api/admin/blocked-dates/${iso}/unblock`);
+        } else {
+          const reasonInput = document.getElementById("block-date-reason");
+          await KhorshidAPI.post("/api/admin/blocked-dates", { date: iso, reason: reasonInput ? reasonInput.value.trim() : "" });
+        }
+        loadBlockedDates();
+      });
+      box.appendChild(btn);
+    }
+  }
+
+  function renderBlockedDatesTable(blockedList) {
+    const tbody = document.getElementById("blocked-dates-tbody");
+    tbody.innerHTML = blockedList
+      .map(
+        (d) => `
+      <tr>
+        <td class="px-4 py-3 font-mono">${d.date}</td>
+        <td class="px-4 py-3 text-xs text-khorshid-600 dark:text-khorshid-400">${d.reason || "—"}</td>
+        <td class="px-4 py-3">
+          <button data-unblock-date="${d.date}" class="text-xs text-khorshid-600 underline dark:text-khorshid-300">
+            فعال کن
+          </button>
+        </td>
+      </tr>`
+      )
+      .join("");
+    if (!blockedList.length) {
+      tbody.innerHTML = `<tr><td colspan="3" class="px-4 py-6 text-center text-xs text-khorshid-400">روزی غیرفعال نشده است.</td></tr>`;
+    }
+    tbody.querySelectorAll("[data-unblock-date]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        await KhorshidAPI.post(`/api/admin/blocked-dates/${btn.getAttribute("data-unblock-date")}/unblock`);
+        loadBlockedDates();
+      });
+    });
+  }
+
+  async function loadBlockedDates() {
+    const res = await KhorshidAPI.get("/api/admin/blocked-dates");
+    if (!res.ok) return;
+    renderDeliveryDayPicker(res.dates);
+    renderBlockedDatesTable(res.dates);
+  }
+
   function setupTabs() {
     document.querySelectorAll(".admin-tab").forEach((btn) => {
       btn.addEventListener("click", () => {
@@ -166,6 +266,22 @@
       if (res.ok) {
         form.reset();
         loadCoupons();
+      }
+    });
+  }
+
+  function setupBlockDateForm() {
+    const form = document.getElementById("block-date-form");
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const reasonInput = document.getElementById("block-date-reason");
+      const res = await KhorshidAPI.post("/api/admin/blocked-dates", {
+        date: form.date.value,
+        reason: reasonInput ? reasonInput.value.trim() : "",
+      });
+      if (res.ok) {
+        form.reset();
+        loadBlockedDates();
       }
     });
   }
@@ -204,9 +320,11 @@
     setupTabs();
     setupCouponForm();
     setupUploadForm();
+    setupBlockDateForm();
     loadSummary();
     loadOrders();
     loadRepairs();
     loadCoupons();
+    loadBlockedDates();
   });
 })();

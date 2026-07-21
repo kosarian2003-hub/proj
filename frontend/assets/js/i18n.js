@@ -23,6 +23,10 @@
       const val = get(el.getAttribute("data-i18n-placeholder"));
       if (val !== null) el.setAttribute("placeholder", val);
     });
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((el) => {
+      const val = get(el.getAttribute("data-i18n-aria-label"));
+      if (val !== null) el.setAttribute("aria-label", val);
+    });
     document.dispatchEvent(new CustomEvent("khorshid:translated"));
   }
 

@@ -7,15 +7,22 @@
  * going to products.html.
  */
 (function () {
+  function getErrorBox(form) {
+    // The error box lives just before the <form> as a sibling (same parent
+    // card), not inside it, so form.querySelector() can never find it —
+    // look at the form's container instead, falling back to the whole doc.
+    return (form.parentElement || document).querySelector("[data-form-error]") || document.querySelector("[data-form-error]");
+  }
+
   function showError(form, key) {
-    const box = form.querySelector("[data-form-error]");
+    const box = getErrorBox(form);
     if (!box) return;
     box.textContent = window.KhorshidI18n.t(key) || key;
     box.classList.remove("hidden");
   }
 
   function hideError(form) {
-    const box = form.querySelector("[data-form-error]");
+    const box = getErrorBox(form);
     if (box) box.classList.add("hidden");
   }
 

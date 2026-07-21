@@ -27,6 +27,7 @@ Then open http://localhost:5000
 """
 
 import os
+import re
 import uuid
 from datetime import datetime, timedelta
 from functools import wraps
@@ -497,6 +498,39 @@ def admin_create_coupon():
     return jsonify({"ok": True})
 
 
+@app.route("/api/delivery/blocked-dates", methods=["GET"])
+def api_blocked_dates():
+    """Public — the checkout page uses this to grey out/disable dates the
+    customer shouldn't be able to pick (e.g. holidays or fully-booked days)."""
+    dates = [row["date"] for row in db.get_blocked_dates()]
+    return jsonify({"ok": True, "dates": dates})
+
+
+@app.route("/api/admin/blocked-dates", methods=["GET"])
+@require_admin
+def admin_list_blocked_dates():
+    return jsonify({"ok": True, "dates": db.get_blocked_dates()})
+
+
+@app.route("/api/admin/blocked-dates", methods=["POST"])
+@require_admin
+def admin_block_date():
+    body = request.get_json(force=True, silent=True) or {}
+    date_str = (body.get("date") or "").strip()
+    reason = (body.get("reason") or "").strip() or None
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", date_str):
+        return jsonify({"ok": False, "error": "invalid_date"}), 400
+    db.block_delivery_date(date_str, reason)
+    return jsonify({"ok": True})
+
+
+@app.route("/api/admin/blocked-dates/<date_str>/unblock", methods=["POST"])
+@require_admin
+def admin_unblock_date(date_str):
+    db.unblock_delivery_date(date_str)
+    return jsonify({"ok": True})
+
+
 @app.route("/api/admin/coupons/<code>/toggle", methods=["POST"])
 @require_admin
 def admin_toggle_coupon(code):
@@ -524,6 +558,13 @@ def create_order_route():
 
     if not items:
         return jsonify({"ok": False, "error": "empty_cart"}), 400
+
+    if not str(customer.get("phone") or "").strip():
+        return jsonify({"ok": False, "error": "phone_required"}), 400
+
+    slot_date = (delivery.get("slot") or {}).get("date") if isinstance(delivery.get("slot"), dict) else None
+    if slot_date and db.is_date_blocked(slot_date):
+        return jsonify({"ok": False, "error": "blocked_delivery_date"}), 400
 
     stock_by_id = {p["id"]: p["stock"] for p in read_products_from_excel()}
     for i in items:

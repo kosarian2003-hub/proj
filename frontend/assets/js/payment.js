@@ -33,9 +33,16 @@
       .map(
         (i) => `
       <div class="flex items-center justify-between gap-3 border-b border-slate-100 py-3 dark:border-slate-700/60">
-        <div>
-          <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}</p>
-          <p class="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">${formatToman(i.price)} ${t("products_page.toman")}</p>
+        <div class="flex items-center gap-3">
+          ${
+            i.image
+              ? `<img src="${i.image}" alt="${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}" loading="lazy" class="h-12 w-12 shrink-0 rounded-lg object-cover" onerror="this.remove()" />`
+              : ""
+          }
+          <div>
+            <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}</p>
+            <p class="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">${formatToman(i.price)} ${t("products_page.toman")}</p>
+          </div>
         </div>
         <div class="flex flex-col items-end gap-1">
           <div class="flex items-center gap-2">
@@ -137,6 +144,24 @@
       return;
     }
 
+    const slot = window.KhorshidDeliverySlot ? window.KhorshidDeliverySlot.getSlot() : null;
+    if (!slot) {
+      const msg = document.getElementById("delivery-time-message");
+      if (msg) {
+        msg.textContent = t("cart_page.select_delivery_time_first");
+        msg.classList.remove("hidden");
+      } else {
+        alert(t("cart_page.select_delivery_time_first"));
+      }
+      return;
+    }
+
+    if (!form.customer_phone.value.trim()) {
+      alert(t("cart_page.phone_required"));
+      form.customer_phone.focus();
+      return;
+    }
+
     const payBtn = document.getElementById("pay-button");
     payBtn.disabled = true;
     payBtn.textContent = t("cart_page.processing");
@@ -148,6 +173,7 @@
         lng: loc.lng,
         address: loc.address || "",
         note: form.address_note.value.trim(),
+        slot: slot,
       },
       customer: {
         first_name: form.customer_first_name.value.trim(),
@@ -167,6 +193,18 @@
       }
       if (orderRes.error === "insufficient_stock") {
         alert(t("cart_page.insufficient_stock").replace("{available}", orderRes.available));
+        return;
+      }
+      if (orderRes.error === "blocked_delivery_date") {
+        alert(t("cart_page.delivery_date_unavailable"));
+        if (window.KhorshidDeliverySlot && window.KhorshidDeliverySlot.refresh) {
+          window.KhorshidDeliverySlot.refresh();
+        }
+        return;
+      }
+      if (orderRes.error === "phone_required") {
+        alert(t("cart_page.phone_required"));
+        form.customer_phone.focus();
         return;
       }
       alert(orderRes.error || "order_failed");
