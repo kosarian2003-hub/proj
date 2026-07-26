@@ -36,7 +36,7 @@ LEGACY_ORDERS_JSON = DATA_DIR / "orders.json"
 LEGACY_INVOICES_JSON = DATA_DIR / "invoices.json"
 
 DEFAULT_ADMIN_EMAIL = "admin@khorshid.local"
-DEFAULT_ADMIN_PASSWORD = "admin123"  # change this after first login!
+DEFAULT_ADMIN_PASSWORD = "ali123654"  # change this from Account > Change Password after first login!
 
 
 @contextmanager
@@ -104,8 +104,17 @@ CREATE TABLE IF NOT EXISTS invoices (
 CREATE TABLE IF NOT EXISTS coupons (
     code TEXT PRIMARY KEY,
     discount_percent INTEGER NOT NULL,
+    usage_limit INTEGER,
     active INTEGER NOT NULL DEFAULT 1,
     created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS coupon_usages (
+    id TEXT PRIMARY KEY,
+    coupon_code TEXT NOT NULL,
+    user_id TEXT NOT NULL,
+    order_id TEXT NOT NULL,
+    used_at TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS repairs (
@@ -163,6 +172,10 @@ def _migrate_new_columns():
         for col, col_type in new_cols.items():
             if col not in existing_cols:
                 conn.execute(f"ALTER TABLE users ADD COLUMN {col} {col_type}")
+
+        coupon_cols = {row["name"] for row in conn.execute("PRAGMA table_info(coupons)").fetchall()}
+        if "usage_limit" not in coupon_cols:
+            conn.execute("ALTER TABLE coupons ADD COLUMN usage_limit INTEGER")
 
 
 def _migrate_legacy_json():
@@ -272,6 +285,17 @@ def user_to_dict(row):
     }
 
 
+def admin_user_summary(row):
+    locked = False
+    if row["locked_until"]:
+        locked = datetime.fromisoformat(row["locked_until"]) > datetime.utcnow()
+    return {
+        "id": row["id"], "name": row["name"], "email": row["email"],
+        "phone": row["phone"] or "", "is_admin": bool(row["is_admin"]),
+        "created_at": row["created_at"], "locked": locked,
+    }
+
+
 def get_user_by_email(email):
     with get_conn() as conn:
         return conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone()
@@ -280,6 +304,28 @@ def get_user_by_email(email):
 def get_user_by_id(user_id):
     with get_conn() as conn:
         return conn.execute("SELECT * FROM users WHERE id = ?", (user_id,)).fetchone()
+
+
+def list_users():
+    """All accounts for the admin panel. Never selects password_hash — admins
+    can trigger a reset, but the actual password (hashed or otherwise) is
+    never returned to the client."""
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT id, first_name, last_name, name, email, phone, is_admin, "
+            "created_at, locked_until FROM users ORDER BY created_at DESC"
+        ).fetchall()
+
+
+def admin_reset_password(user_id, password_hash):
+    """Admin-triggered password reset from inside the admin panel. Also clears
+    any lockout state and pending self-service reset token for that user."""
+    with get_conn() as conn:
+        conn.execute(
+            "UPDATE users SET password_hash = ?, reset_token = NULL, reset_token_expires = NULL, "
+            "failed_attempts = 0, locked_until = NULL WHERE id = ?",
+            (password_hash, user_id),
+        )
 
 
 def create_user(first_name, last_name, email, password_hash):
@@ -482,11 +528,12 @@ def get_coupon(code):
         return conn.execute("SELECT * FROM coupons WHERE code = ?", (code.upper(),)).fetchone()
 
 
-def create_coupon(code, discount_percent):
+def create_coupon(code, discount_percent, usage_limit=None):
     with get_conn() as conn:
         conn.execute(
-            "INSERT OR REPLACE INTO coupons (code, discount_percent, active, created_at) VALUES (?,?,1,?)",
-            (code.upper(), discount_percent, datetime.utcnow().isoformat()),
+            "INSERT OR REPLACE INTO coupons (code, discount_percent, usage_limit, active, created_at) "
+            "VALUES (?,?,?,1,?)",
+            (code.upper(), discount_percent, usage_limit, datetime.utcnow().isoformat()),
         )
 
 
@@ -496,8 +543,50 @@ def set_coupon_active(code, active):
 
 
 def get_all_coupons():
+    """Coupons for the admin panel, each with how many times it's been used
+    so far (usage_limit is NULL for coupons with no cap)."""
     with get_conn() as conn:
-        rows = conn.execute("SELECT * FROM coupons ORDER BY created_at DESC").fetchall()
+        rows = conn.execute(
+            "SELECT c.*, "
+            "(SELECT COUNT(*) FROM coupon_usages u WHERE u.coupon_code = c.code) AS usage_count "
+            "FROM coupons c ORDER BY c.created_at DESC"
+        ).fetchall()
+    return [dict(r) for r in rows]
+
+
+def coupon_usage_count(code):
+    with get_conn() as conn:
+        return conn.execute(
+            "SELECT COUNT(*) c FROM coupon_usages WHERE coupon_code = ?", (code.upper(),)
+        ).fetchone()["c"]
+
+
+def user_has_used_coupon(code, user_id):
+    with get_conn() as conn:
+        row = conn.execute(
+            "SELECT 1 FROM coupon_usages WHERE coupon_code = ? AND user_id = ? LIMIT 1",
+            (code.upper(), user_id),
+        ).fetchone()
+    return row is not None
+
+
+def record_coupon_usage(code, user_id, order_id):
+    with get_conn() as conn:
+        conn.execute(
+            "INSERT INTO coupon_usages (id, coupon_code, user_id, order_id, used_at) VALUES (?,?,?,?,?)",
+            (str(uuid.uuid4()), code.upper(), user_id, order_id, datetime.utcnow().isoformat()),
+        )
+
+
+def get_coupon_usages(code):
+    """Who has used a coupon and when, for the admin 'used by' view."""
+    with get_conn() as conn:
+        rows = conn.execute(
+            "SELECT u.used_at, u.order_id, usr.name, usr.email, usr.phone "
+            "FROM coupon_usages u JOIN users usr ON usr.id = u.user_id "
+            "WHERE u.coupon_code = ? ORDER BY u.used_at DESC",
+            (code.upper(),),
+        ).fetchall()
     return [dict(r) for r in rows]
 
 

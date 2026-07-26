@@ -19,32 +19,32 @@
   };
 
   function orderCard(order, t) {
-    const lang = window.KhorshidI18n.currentLang();
+    const lang = window.BazaarI18n.currentLang();
     const itemsText = order.items.map((i) => `${i.name} × ${i.qty}`).join("، ");
     const date = new Date(order.created_at).toLocaleDateString(lang === "fa" ? "fa-IR" : "en-US");
     return `
-      <div class="rounded-2xl border border-khorshid-100 bg-white p-5 dark:border-white/5 dark:bg-khorshid-900/40">
+      <div class="rounded-2xl border border-bazaar-100 bg-white p-5 dark:border-white/5 dark:bg-bazaar-900/40">
         <div class="flex flex-wrap items-center justify-between gap-2">
-          <p class="font-mono text-sm font-semibold text-khorshid-900 dark:text-white">#${order.id}</p>
+          <p class="font-mono text-sm font-semibold text-bazaar-900 dark:text-white">#${order.id}</p>
           <span class="rounded-full px-3 py-1 text-xs font-medium ${STATUS_COLORS[order.status] || ""}">${t(STATUS_LABELS[order.status] || order.status)}</span>
         </div>
-        <p class="mt-2 text-sm text-khorshid-700 dark:text-khorshid-300">${itemsText}</p>
-        <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-khorshid-500 dark:text-khorshid-400">
+        <p class="mt-2 text-sm text-bazaar-700 dark:text-bazaar-300">${itemsText}</p>
+        <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-bazaar-500 dark:text-bazaar-400">
           <span>${date}</span>
-          <span class="font-mono text-sm font-bold text-khorshid-900 dark:text-white">${formatToman(order.total)} ${t("products_page.toman")}</span>
+          <span class="font-mono text-sm font-bold text-bazaar-900 dark:text-white">${formatToman(order.total)} ${t("products_page.toman")}</span>
         </div>
       </div>`;
   }
 
   async function load() {
-    const res = await KhorshidAPI.get("/api/auth/me");
+    const res = await BazaarAPI.get("/api/auth/me");
     if (!res.user) {
       window.location.href = "login.html?redirect=orders.html";
       return;
     }
 
-    const t = window.KhorshidI18n.t;
-    const data = await KhorshidAPI.get("/api/orders/mine");
+    const t = window.BazaarI18n.t;
+    const data = await BazaarAPI.get("/api/orders/mine");
     const list = document.getElementById("orders-list");
     const empty = document.getElementById("orders-empty");
     if (!data.ok || !data.orders.length) {

@@ -16,11 +16,11 @@
     const name = lang === "fa" ? p.name_fa : p.name_en || p.name_fa;
     const category = lang === "fa" ? p.category_fa : p.category_en || p.category_fa;
     const inStock = p.stock > 0;
-    const t = window.KhorshidI18n.t;
+    const t = window.BazaarI18n.t;
 
     const media = p.image
       ? `<img src="${p.image}" alt="${name}" loading="lazy" class="h-full w-full object-cover" onerror="this.remove()" />`
-      : `<svg viewBox="0 0 64 64" class="h-16 w-16 text-blue-800/70 dark:text-blue-300/70" fill="none" stroke="currentColor" stroke-width="2">
+      : `<svg viewBox="0 0 64 64" class="h-16 w-16 text-bazaar-700/70 dark:text-bazaar-300/70" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="14" y="6" width="36" height="52" rx="4"/>
           <line x1="20" y1="16" x2="44" y2="16"/>
           <circle cx="32" cy="36" r="10"/>
@@ -28,16 +28,16 @@
         </svg>`;
 
     return `
-      <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700/60 dark:bg-slate-800/60" data-product-id="${p.id}">
-        <a href="product.html?id=${p.id}" class="relative flex h-44 items-center justify-center overflow-hidden bg-gradient-to-br from-sky-50 to-blue-100 dark:from-slate-700 dark:to-slate-800">
+      <article class="group relative flex flex-col overflow-hidden rounded-2xl border border-bazaar-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-white/5 dark:bg-bazaar-900/40" data-product-id="${p.id}">
+        <a href="product.html?id=${p.id}" class="relative flex h-44 items-center justify-center overflow-hidden bg-gradient-to-br from-bazaar-50 to-bazaar-100 dark:from-bazaar-800 dark:to-bazaar-900">
           ${media}
-          <span class="absolute top-3 ${document.documentElement.dir === 'rtl' ? 'right-3' : 'left-3'} rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-blue-900 shadow dark:bg-slate-900/80 dark:text-blue-200">${category || ""}</span>
+          <span class="absolute top-3 ${document.documentElement.dir === 'rtl' ? 'right-3' : 'left-3'} rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-bazaar-900 shadow dark:bg-bazaar-950/80 dark:text-bazaar-100">${category || ""}</span>
         </a>
         <div class="flex flex-1 flex-col gap-3 p-4">
-          <a href="product.html?id=${p.id}" class="font-display text-[15px] font-semibold leading-snug text-slate-800 hover:text-blue-800 dark:text-slate-100 dark:hover:text-blue-300">${name}</a>
+          <a href="product.html?id=${p.id}" class="font-display text-[15px] font-semibold leading-snug text-bazaar-950 hover:text-bazaar-700 dark:text-bazaar-100 dark:hover:text-brass-400">${name}</a>
           <div class="mt-auto flex items-end justify-between">
             <div>
-              <p class="font-mono text-lg font-bold text-blue-900 dark:text-blue-300">${formatToman(p.price)}<span class="ms-1 text-xs font-normal text-slate-500 dark:text-slate-400">${t("products_page.toman")}</span></p>
+              <p class="font-mono text-lg font-bold text-bazaar-900 dark:text-bazaar-300">${formatToman(p.price)}<span class="ms-1 text-xs font-normal text-slate-500 dark:text-slate-400">${t("products_page.toman")}</span></p>
               <p class="mt-0.5 text-xs ${inStock ? "text-emerald-600 dark:text-emerald-400" : "text-rose-500"}">
                 ${inStock ? `${t("products_page.in_stock")} · ${p.stock} ${t("products_page.stock_count")}` : t("products_page.out_of_stock")}
               </p>
@@ -46,7 +46,7 @@
           <button
             data-add-to-cart
             ${inStock ? "" : "disabled"}
-            class="mt-1 w-full rounded-xl bg-blue-900 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 dark:bg-blue-600 dark:hover:bg-blue-500 dark:disabled:bg-slate-700">
+            class="mt-1 w-full rounded-xl bg-bazaar-700 py-2.5 text-sm font-semibold text-white transition hover:bg-bazaar-800 disabled:cursor-not-allowed disabled:bg-bazaar-200 disabled:text-bazaar-500 dark:bg-bazaar-600 dark:hover:bg-bazaar-500 dark:disabled:bg-bazaar-800">
             ${t("products_page.add_to_cart")}
           </button>
         </div>
@@ -60,7 +60,7 @@
     const key = lang === "fa" ? "category_fa" : "category_en";
     const categories = [...new Set(products.map((p) => p[key]).filter(Boolean))];
     select.innerHTML =
-      `<option value="">${window.KhorshidI18n.t("products_page.all_categories")}</option>` +
+      `<option value="">${window.BazaarI18n.t("products_page.all_categories")}</option>` +
       categories.map((c) => `<option value="${c}">${c}</option>`).join("");
     if (categories.includes(current)) select.value = current;
   }
@@ -90,7 +90,7 @@
     const emptyState = document.getElementById("product-empty");
     if (!grid) return;
 
-    const lang = window.KhorshidI18n.currentLang();
+    const lang = window.BazaarI18n.currentLang();
     populateCategoryOptions(allProducts, lang);
     const products = getFilteredSorted(lang);
 
@@ -108,11 +108,11 @@
         const card = btn.closest("[data-product-id]");
         const id = Number(card.getAttribute("data-product-id"));
         const product = allProducts.find((p) => p.id === id);
-        const result = KhorshidCart.addItem(product, 1);
+        const result = BazaarCart.addItem(product, 1);
 
         const original = btn.textContent;
         if (result.added === 0) {
-          btn.textContent = window.KhorshidI18n.t("cart_page.max_stock_reached");
+          btn.textContent = window.BazaarI18n.t("cart_page.max_stock_reached");
           btn.classList.add("bg-amber-500", "dark:bg-amber-600");
           setTimeout(() => {
             btn.textContent = original;
@@ -120,7 +120,7 @@
           }, 1400);
           return;
         }
-        btn.textContent = window.KhorshidI18n.t("products_page.added") + " ✓";
+        btn.textContent = window.BazaarI18n.t("products_page.added") + " ✓";
         btn.classList.add("bg-emerald-600", "dark:bg-emerald-600");
         setTimeout(() => {
           btn.textContent = original;
@@ -135,7 +135,7 @@
     const errorBox = document.getElementById("product-error");
     const errorDetail = document.getElementById("product-error-detail");
     try {
-      const data = await KhorshidAPI.get("/api/products");
+      const data = await BazaarAPI.get("/api/products");
       if (data.ok === false) throw new Error(data.error || "unknown error");
       lastUpdatedAt = data.updated_at;
       allProducts = data.products || [];
@@ -176,11 +176,11 @@
   });
 
   // re-render with the new language's product names when the language changes
-  document.addEventListener("khorshid:translated", () => {
+  document.addEventListener("bazaar:translated", () => {
     if (document.getElementById("product-grid")) render();
   });
 
   // exposed so product.html can render "similar products" cards with the
   // exact same markup/behavior instead of duplicating the template
-  window.KhorshidProductCard = cardTemplate;
+  window.BazaarProductCard = cardTemplate;
 })();

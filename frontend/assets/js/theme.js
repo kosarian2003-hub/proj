@@ -5,7 +5,7 @@
  * over the system setting from then on.
  */
 (function () {
-  const STORAGE_KEY = "khorshid_theme"; // "dark" | "light" | absent = follow system
+  const STORAGE_KEY = "bazaar_theme"; // "dark" | "light" | absent = follow system
   const root = document.documentElement;
   const media = window.matchMedia("(prefers-color-scheme: dark)");
 

@@ -28,6 +28,7 @@ Then open http://localhost:5000
 
 import os
 import re
+import secrets
 import uuid
 from datetime import datetime, timedelta
 from functools import wraps
@@ -344,12 +345,18 @@ def forgot_password():
     for the frontend to show on screen. Swap this for a real email/SMS send
     (see README) before using this in production — never expose reset
     tokens in the API response for a real deployment.
+
+    Admin accounts are deliberately excluded: this self-service flow never
+    issues a token for an is_admin=1 user, so an admin's password can only
+    ever be changed from inside a logged-in session (account page) or by
+    another admin from the admin panel.
     """
     body = request.get_json(force=True, silent=True) or {}
     email = (body.get("email") or "").strip().lower()
     user = db.get_user_by_email(email)
-    if not user:
-        # don't reveal whether the email exists
+    if not user or user["is_admin"]:
+        # don't reveal whether the email exists, and never issue a token
+        # for an admin account
         return jsonify({"ok": True, "demo_note": "email_not_found_but_hidden"})
 
     token = uuid.uuid4().hex
@@ -368,6 +375,10 @@ def reset_password():
 
     user = db.get_user_by_reset_token(token)
     if not user or not user["reset_token_expires"]:
+        return jsonify({"ok": False, "error": "invalid_token"}), 400
+    if user["is_admin"]:
+        # belt-and-braces: even if an admin somehow had a token set, this
+        # flow refuses to use it to change an admin's password
         return jsonify({"ok": False, "error": "invalid_token"}), 400
     if datetime.fromisoformat(user["reset_token_expires"]) < datetime.utcnow():
         return jsonify({"ok": False, "error": "token_expired"}), 400
@@ -474,7 +485,44 @@ def validate_coupon():
     coupon = db.get_coupon(code) if code else None
     if not coupon or not coupon["active"]:
         return jsonify({"ok": False, "error": "invalid_coupon"}), 404
+    uid = session.get("user_id")
+    if uid and db.user_has_used_coupon(coupon["code"], uid):
+        return jsonify({"ok": False, "error": "coupon_already_used"}), 409
+    if coupon["usage_limit"] is not None and db.coupon_usage_count(coupon["code"]) >= coupon["usage_limit"]:
+        return jsonify({"ok": False, "error": "coupon_used_up"}), 409
     return jsonify({"ok": True, "code": coupon["code"], "discount_percent": coupon["discount_percent"]})
+
+
+@app.route("/api/admin/users", methods=["GET"])
+@require_admin
+def admin_list_users():
+    """Accounts for the admin panel. Passwords are hashed and are never
+    stored or returned in plain text — use the reset-password action below
+    to give a user a new password instead of trying to look up the old one."""
+    users = [db.admin_user_summary(u) for u in db.list_users()]
+    return jsonify({"ok": True, "users": users})
+
+
+@app.route("/api/admin/users/<user_id>/reset-password", methods=["POST"])
+@require_admin
+def admin_reset_user_password(user_id):
+    target = db.get_user_by_id(user_id)
+    if not target:
+        return jsonify({"ok": False, "error": "user_not_found"}), 404
+
+    body = request.get_json(force=True, silent=True) or {}
+    new_password = (body.get("new_password") or "").strip()
+    if new_password and len(new_password) < 6:
+        return jsonify({"ok": False, "error": "invalid_input"}), 400
+    if not new_password:
+        # generate a one-time random password instead of ever reading/showing
+        # the user's real one
+        new_password = secrets.token_urlsafe(9)
+
+    db.admin_reset_password(user_id, generate_password_hash(new_password))
+    # Returned exactly once so the admin can hand it to the user — it is not
+    # stored anywhere in plain text and cannot be retrieved again after this.
+    return jsonify({"ok": True, "new_password": new_password})
 
 
 @app.route("/api/admin/coupons", methods=["GET"])
@@ -494,8 +542,28 @@ def admin_create_coupon():
         percent = None
     if not code or percent is None or not (0 < percent <= 90):
         return jsonify({"ok": False, "error": "invalid_input"}), 400
-    db.create_coupon(code, percent)
+
+    usage_limit_raw = body.get("usage_limit")
+    usage_limit = None
+    if usage_limit_raw not in (None, ""):
+        try:
+            usage_limit = int(usage_limit_raw)
+        except (TypeError, ValueError):
+            return jsonify({"ok": False, "error": "invalid_input"}), 400
+        if usage_limit < 1:
+            return jsonify({"ok": False, "error": "invalid_input"}), 400
+
+    db.create_coupon(code, percent, usage_limit)
     return jsonify({"ok": True})
+
+
+@app.route("/api/admin/coupons/<code>/usages", methods=["GET"])
+@require_admin
+def admin_coupon_usages(code):
+    coupon = db.get_coupon(code)
+    if not coupon:
+        return jsonify({"ok": False, "error": "not_found"}), 404
+    return jsonify({"ok": True, "usages": db.get_coupon_usages(code)})
 
 
 @app.route("/api/delivery/blocked-dates", methods=["GET"])
@@ -582,11 +650,14 @@ def create_order_route():
     applied_coupon = None
     if coupon_code:
         coupon = db.get_coupon(coupon_code)
-        if coupon and coupon["active"]:
-            discount_amount = round(subtotal * coupon["discount_percent"] / 100)
-            applied_coupon = coupon["code"]
-        else:
+        if not coupon or not coupon["active"]:
             return jsonify({"ok": False, "error": "invalid_coupon"}), 400
+        if db.user_has_used_coupon(coupon["code"], uid):
+            return jsonify({"ok": False, "error": "coupon_already_used"}), 409
+        if coupon["usage_limit"] is not None and db.coupon_usage_count(coupon["code"]) >= coupon["usage_limit"]:
+            return jsonify({"ok": False, "error": "coupon_used_up"}), 409
+        discount_amount = round(subtotal * coupon["discount_percent"] / 100)
+        applied_coupon = coupon["code"]
 
     is_first_order = FREE_SHIPPING_ON_FIRST_ORDER and db.count_orders_for_user(uid) == 0
     shipping_fee = 0 if is_first_order else STANDARD_SHIPPING_FEE
@@ -608,6 +679,8 @@ def create_order_route():
         "created_at": datetime.utcnow().isoformat(),
     }
     db.create_order(order)
+    if applied_coupon:
+        db.record_coupon_usage(applied_coupon, uid, order["id"])
     return jsonify({"ok": True, "order": order})
 
 

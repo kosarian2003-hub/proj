@@ -8,7 +8,7 @@
  * immediately instead of after submitting the order.
  */
 (function () {
-  const KEY = "khorshid_cart";
+  const KEY = "bazaar_cart";
 
   function readCart() {
     try {
@@ -21,7 +21,7 @@
   function writeCart(items) {
     localStorage.setItem(KEY, JSON.stringify(items));
     updateBadge();
-    document.dispatchEvent(new CustomEvent("khorshid:cart-changed", { detail: { items } }));
+    document.dispatchEvent(new CustomEvent("bazaar:cart-changed", { detail: { items } }));
   }
 
   // returns { added: number, cappedAt: number|null } so the UI can tell the
@@ -52,7 +52,7 @@
     writeCart(items);
     const result = { added: newQty - currentQty, cappedAt };
     if (result.added > 0) {
-      document.dispatchEvent(new CustomEvent("khorshid:item-added", { detail: { product, result } }));
+      document.dispatchEvent(new CustomEvent("bazaar:item-added", { detail: { product, result } }));
     }
     return result;
   }
@@ -94,7 +94,7 @@
     });
   }
 
-  window.KhorshidCart = {
+  window.BazaarCart = {
     readCart,
     addItem,
     removeItem,

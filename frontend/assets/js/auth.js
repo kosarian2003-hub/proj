@@ -17,7 +17,7 @@
   function showError(form, key) {
     const box = getErrorBox(form);
     if (!box) return;
-    box.textContent = window.KhorshidI18n.t(key) || key;
+    box.textContent = window.BazaarI18n.t(key) || key;
     box.classList.remove("hidden");
   }
 
@@ -41,7 +41,7 @@
 
     // if already logged in, there's no reason to show the login/signup form again
     if (loginForm || signupForm) {
-      const me = await KhorshidAPI.get("/api/auth/me");
+      const me = await BazaarAPI.get("/api/auth/me");
       if (me.user) {
         window.location.href = redirectTarget;
         return;
@@ -61,7 +61,7 @@
         hideError(loginForm);
         const email = loginForm.email.value.trim();
         const password = loginForm.password.value;
-        const res = await KhorshidAPI.post("/api/auth/login", { email, password });
+        const res = await BazaarAPI.post("/api/auth/login", { email, password });
         if (res.ok) {
           window.location.href = redirectTarget;
         } else {
@@ -78,7 +78,7 @@
         const last_name = signupForm.last_name.value.trim();
         const email = signupForm.email.value.trim();
         const password = signupForm.password.value;
-        const res = await KhorshidAPI.post("/api/auth/signup", { first_name, last_name, email, password });
+        const res = await BazaarAPI.post("/api/auth/signup", { first_name, last_name, email, password });
         if (res.ok) {
           window.location.href = redirectTarget;
         } else if (res.error === "email_exists") {

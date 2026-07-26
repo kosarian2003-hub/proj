@@ -1,7 +1,7 @@
 /**
- * api.js — thin fetch wrapper for the Khorshid backend.
+ * api.js — thin fetch wrapper for the Bazaar backend.
  */
-window.KhorshidAPI = {
+window.BazaarAPI = {
   async get(path) {
     const res = await fetch(path, { credentials: "include" });
     return res.json();

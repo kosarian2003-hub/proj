@@ -3,37 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>درخواست تعمیر | خورشید</title>
+<title>درخواست تعمیر | بازاریو</title>
 <script src="assets/js/theme-init.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     darkMode: 'class',
     theme: { extend: {
-      colors: { khorshid: { 950:'#081020', 900:'#0F2A4A', 800:'#153A63', 700:'#1B4F8C', 600:'#2668AC', 500:'#3E7CB8', 300:'#8FBBDE', 100:'#E4EEF8', 50:'#F5F9FD' }, sun: { 500:'#F2A83B', 400:'#F5BE64' } },
-      fontFamily: { display: ['Vazirmatn','sans-serif'], body: ['Vazirmatn','sans-serif'] },
+      colors: { bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' }, brass: { 500:'#AD8A55', 400:'#C7A96F' } },
+      fontFamily: { display: ['Amiri','serif'], body: ['Vazirmatn','sans-serif'] },
     } },
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/effects.css">
 <style>body { font-family: 'Vazirmatn', sans-serif; }</style>
 </head>
-<body class="bg-khorshid-50 text-khorshid-950 antialiased dark:bg-khorshid-950 dark:text-khorshid-100">
+<body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
-<header class="sticky top-0 z-40 border-b border-khorshid-100/80 bg-khorshid-50/90 backdrop-blur dark:border-white/5 dark:bg-khorshid-950/90">
+<header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
     <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-khorshid-700 text-sun-400">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
-      <span class="font-display text-lg font-extrabold text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
+      <span class="font-display text-lg font-extrabold text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
     </a>
     <div class="flex items-center gap-2">
-      <button data-lang-toggle class="rounded-full border border-khorshid-200 px-3 py-1.5 text-xs font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5">
+      <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
-      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 text-sm hover:bg-khorshid-100 dark:border-white/10 dark:hover:bg-white/5">
+      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-bazaar-200 text-sm hover:bg-bazaar-100 dark:border-white/10 dark:hover:bg-white/5">
         <span data-theme-icon>🌙</span>
       </button>
     </div>
@@ -41,24 +42,24 @@
 </header>
 
 <section class="mx-auto max-w-2xl px-5 py-10">
-  <h1 class="font-display text-2xl font-bold text-khorshid-950 dark:text-white" data-i18n="repair_page.title">درخواست تعمیر</h1>
-  <p class="mt-2 text-sm text-khorshid-600 dark:text-khorshid-400" data-i18n="repair_page.subtitle">اطلاعات دستگاه و ایراد آن را وارد کنید تا کارشناسان ما با شما تماس بگیرند.</p>
+  <h1 class="font-display text-2xl font-bold text-bazaar-950 dark:text-white" data-i18n="repair_page.title">درخواست تعمیر</h1>
+  <p class="mt-2 text-sm text-bazaar-600 dark:text-bazaar-400" data-i18n="repair_page.subtitle">اطلاعات دستگاه و ایراد آن را وارد کنید تا کارشناسان ما با شما تماس بگیرند.</p>
 
   <p data-form-error class="hidden mt-4 rounded-lg bg-rose-50 px-3 py-2 text-xs text-rose-600 dark:bg-rose-500/10 dark:text-rose-400"></p>
   <p id="repair-success" class="hidden mt-4 rounded-lg bg-emerald-50 px-3 py-2 text-sm text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400" data-i18n="repair_page.success"></p>
 
-  <form id="repair-form" class="mt-6 space-y-4 rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
+  <form id="repair-form" class="mt-6 space-y-4 rounded-2xl border border-bazaar-100 bg-white p-6 dark:border-white/5 dark:bg-bazaar-900/40">
     <div>
-      <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="repair_page.name">نام و نام خانوادگی</label>
-      <input name="name" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+      <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="repair_page.name">نام و نام خانوادگی</label>
+      <input name="name" required class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
     </div>
     <div>
-      <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="cart_page.phone">شماره تماس</label>
-      <input name="phone" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+      <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="cart_page.phone">شماره تماس</label>
+      <input name="phone" required class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
     </div>
     <div>
-      <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="repair_page.device_type">نوع دستگاه</label>
-      <select name="device_type" required class="w-full rounded-xl border border-khorshid-200 bg-white px-3.5 py-2.5 text-sm text-khorshid-900 outline-none focus:border-khorshid-500 dark:border-white/10 dark:bg-khorshid-800 dark:text-khorshid-100">
+      <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="repair_page.device_type">نوع دستگاه</label>
+      <select name="device_type" required class="w-full rounded-xl border border-bazaar-200 bg-white px-3.5 py-2.5 text-sm text-bazaar-900 outline-none focus:border-bazaar-500 dark:border-white/10 dark:bg-bazaar-800 dark:text-bazaar-100">
         <option value="یخچال و فریزر">یخچال و فریزر</option>
         <option value="لباسشویی">لباسشویی</option>
         <option value="اجاق گاز">اجاق گاز</option>
@@ -71,21 +72,54 @@
       </select>
     </div>
     <div>
-      <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="repair_page.issue">توضیح ایراد دستگاه</label>
-      <textarea name="issue" required rows="4" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10"></textarea>
+      <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="repair_page.issue">توضیح ایراد دستگاه</label>
+      <textarea name="issue" required rows="4" class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10"></textarea>
     </div>
-    <button type="submit" class="w-full rounded-xl bg-khorshid-700 py-3 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="repair_page.submit">ثبت درخواست تعمیر</button>
+    <button type="submit" class="w-full rounded-xl bg-bazaar-700 py-3 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="repair_page.submit">ثبت درخواست تعمیر</button>
   </form>
 
   <div id="my-repairs-section" class="hidden mt-10">
-    <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="repair_page.my_requests">درخواست‌های قبلی من</h2>
+    <h2 class="font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="repair_page.my_requests">درخواست‌های قبلی من</h2>
     <div id="my-repairs-list" class="mt-4 space-y-3"></div>
   </div>
 </section>
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/scroll-reveal.js"></script>
 <script src="assets/js/api.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/nav.js"></script>
 <script src="assets/js/repair.js"></script>
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav data-bottom-nav class="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-bazaar-100 bg-white/95 backdrop-blur md:hidden dark:border-white/10 dark:bg-bazaar-950/95" style="padding-bottom: env(safe-area-inset-bottom)">
+  <a href="index.html" data-nav-page="home" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.home">خانه</span>
+  </a>
+  <a href="products.html" data-nav-page="products" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.products">محصولات</span>
+  </a>
+  <a href="payment.html" data-nav-page="cart" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <span class="relative">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span data-cart-count class="hidden absolute -top-1.5 -end-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[9px] font-bold text-bazaar-950">0</span>
+    </span>
+    <span class="text-[10px] font-medium" data-i18n="nav.cart">سبد خرید</span>
+  </a>
+  <a href="orders.html" data-nav-page="orders" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v3a1 1 0 0 0 1 1h3"/><path d="M8 12h8M8 16h5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.my_orders">سفارش‌ها</span>
+  </a>
+  <a href="login.html" data-auth-guest data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.login">ورود</span>
+  </a>
+  <a href="account.html" data-auth-user data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.account">حساب من</span>
+  </a>
+</nav>
 </body>
 </html>

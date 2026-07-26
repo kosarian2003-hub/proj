@@ -3,46 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>حساب کاربری من | خورشید</title>
+<title>حساب کاربری من | بازاریو</title>
 <script src="assets/js/theme-init.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
     darkMode: 'class',
     theme: { extend: {
-      colors: { khorshid: { 950:'#081020', 900:'#0F2A4A', 800:'#153A63', 700:'#1B4F8C', 600:'#2668AC', 500:'#3E7CB8', 300:'#8FBBDE', 100:'#E4EEF8', 50:'#F5F9FD' }, sun: { 500:'#F2A83B', 400:'#F5BE64' } },
-      fontFamily: { display: ['Vazirmatn','sans-serif'], body: ['Vazirmatn','sans-serif'] },
+      colors: { bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' }, brass: { 500:'#AD8A55', 400:'#C7A96F' } },
+      fontFamily: { display: ['Amiri','serif'], body: ['Vazirmatn','sans-serif'] },
     } },
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/effects.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
   body { font-family: 'Vazirmatn', sans-serif; }
   .font-mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: plaintext; }
   #delivery-map { height: 320px; border-radius: 1rem; z-index: 0; }
-  #map-search-results { background-color: #F5F9FD; }
-  #map-search-results li { color: #0F2A4A; }
-  html.dark #map-search-results { background-color: #0F2A4A; }
-  html.dark #map-search-results li { color: #E4EEF8; }
+  #map-search-results { background-color: #FAF6EC; }
+  #map-search-results li { color: #1E2F22; }
+  html.dark #map-search-results { background-color: #1E2F22; }
+  html.dark #map-search-results li { color: #EAE3D2; }
 </style>
 </head>
-<body class="bg-khorshid-50 text-khorshid-950 antialiased dark:bg-khorshid-950 dark:text-khorshid-100">
+<body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
-<header class="sticky top-0 z-40 border-b border-khorshid-100/80 bg-khorshid-50/90 backdrop-blur dark:border-white/5 dark:bg-khorshid-950/90">
+<header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
     <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-khorshid-700 text-sun-400">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
-      <span class="font-display text-lg font-extrabold text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
+      <span class="font-display text-lg font-extrabold text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
     </a>
     <div class="flex items-center gap-2">
-      <button data-lang-toggle class="rounded-full border border-khorshid-200 px-3 py-1.5 text-xs font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5">
+      <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
-      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 text-sm hover:bg-khorshid-100 dark:border-white/10 dark:hover:bg-white/5">
+      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-bazaar-200 text-sm hover:bg-bazaar-100 dark:border-white/10 dark:hover:bg-white/5">
         <span data-theme-icon>🌙</span>
       </button>
     </div>
@@ -50,94 +51,94 @@
 </header>
 
 <section class="mx-auto max-w-3xl px-5 py-10">
-  <h1 class="font-display text-2xl font-bold text-khorshid-950 dark:text-white" data-i18n="account_page.title">حساب کاربری من</h1>
-  <p class="mt-2 text-sm text-khorshid-600 dark:text-khorshid-400" data-i18n="account_page.subtitle">اطلاعات، آدرس و امنیت حساب خود را مدیریت کنید.</p>
+  <h1 class="font-display text-2xl font-bold text-bazaar-950 dark:text-white" data-i18n="account_page.title">حساب کاربری من</h1>
+  <p class="mt-2 text-sm text-bazaar-600 dark:text-bazaar-400" data-i18n="account_page.subtitle">اطلاعات، آدرس و امنیت حساب خود را مدیریت کنید.</p>
 
   <div id="account-content" class="mt-8 space-y-6">
 
     <!-- PROFILE: avatar + name + phone -->
-    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.tab_profile">اطلاعات حساب</h2>
+    <div class="rounded-2xl border border-bazaar-100 bg-white p-6 dark:border-white/5 dark:bg-bazaar-900/40">
+      <h2 class="font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="account_page.tab_profile">اطلاعات حساب</h2>
 
       <div class="mt-5 flex items-center gap-4">
         <div class="relative shrink-0">
-          <span id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-2xl font-bold text-white"></span>
+          <span id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-2xl font-bold text-white"></span>
           <input id="avatar-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
         </div>
         <div>
-          <button id="avatar-button" type="button" class="rounded-xl border border-khorshid-200 px-4 py-2 text-sm font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5" data-i18n="account_page.avatar_change">تغییر عکس پروفایل</button>
-          <p class="mt-1.5 text-xs text-khorshid-500 dark:text-khorshid-400" data-i18n="account_page.avatar_hint">فرمت مجاز: JPG، PNG، WEBP یا GIF — حداکثر ۱۰ مگابایت</p>
+          <button id="avatar-button" type="button" class="rounded-xl border border-bazaar-200 px-4 py-2 text-sm font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5" data-i18n="account_page.avatar_change">تغییر عکس پروفایل</button>
+          <p class="mt-1.5 text-xs text-bazaar-500 dark:text-bazaar-400" data-i18n="account_page.avatar_hint">فرمت مجاز: JPG، PNG، WEBP یا GIF — حداکثر ۱۰ مگابایت</p>
         </div>
       </div>
 
       <form id="profile-form" class="mt-6 grid gap-4 sm:grid-cols-2">
         <div>
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="auth.first_name">نام</label>
-          <input name="first_name" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="auth.first_name">نام</label>
+          <input name="first_name" required class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <div>
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="auth.last_name">نام خانوادگی</label>
-          <input name="last_name" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="auth.last_name">نام خانوادگی</label>
+          <input name="last_name" required class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <div class="sm:col-span-2">
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.phone_label">شماره موبایل</label>
-          <input name="phone" data-i18n-placeholder="account_page.phone_placeholder" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="account_page.phone_label">شماره موبایل</label>
+          <input name="phone" data-i18n-placeholder="account_page.phone_placeholder" class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <p id="profile-message" class="hidden sm:col-span-2 text-xs"></p>
         <div class="sm:col-span-2">
-          <button type="submit" class="rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.save_button">ذخیره تغییرات</button>
+          <button type="submit" class="rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.save_button">ذخیره تغییرات</button>
         </div>
       </form>
     </div>
 
     <!-- ADDRESS: same map mechanism as checkout -->
-    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.address_title">آدرس ثبت‌شده</h2>
-      <p class="mt-1 text-sm text-khorshid-600 dark:text-khorshid-400" data-i18n="account_page.address_desc">روی نقشه بزنید یا نشانگر را جابه‌جا کنید تا آدرس دقیق شما ذخیره شود.</p>
+    <div class="rounded-2xl border border-bazaar-100 bg-white p-6 dark:border-white/5 dark:bg-bazaar-900/40">
+      <h2 class="font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="account_page.address_title">آدرس ثبت‌شده</h2>
+      <p class="mt-1 text-sm text-bazaar-600 dark:text-bazaar-400" data-i18n="account_page.address_desc">روی نقشه بزنید یا نشانگر را جابه‌جا کنید تا آدرس دقیق شما ذخیره شود.</p>
       <div class="relative mt-4">
         <div id="delivery-map"></div>
         <div class="absolute inset-x-3 top-3 z-[1000]">
           <div class="relative">
             <input id="map-search-input" type="text" autocomplete="off" data-i18n-placeholder="cart_page.map_search_placeholder"
-              class="w-full rounded-xl border border-khorshid-100 bg-white/95 px-3.5 py-2.5 pe-10 text-sm text-khorshid-950 shadow-lg outline-none backdrop-blur placeholder:text-khorshid-400 focus:border-khorshid-500 dark:border-white/10 dark:bg-khorshid-900/95 dark:text-khorshid-100 dark:placeholder:text-khorshid-500" />
+              class="w-full rounded-xl border border-bazaar-100 bg-white/95 px-3.5 py-2.5 pe-10 text-sm text-bazaar-950 shadow-lg outline-none backdrop-blur placeholder:text-bazaar-400 focus:border-bazaar-500 dark:border-white/10 dark:bg-bazaar-900/95 dark:text-bazaar-100 dark:placeholder:text-bazaar-500" />
             <button id="map-search-button" type="button" aria-label="search" data-i18n-aria-label="cart_page.map_search_button"
-              class="absolute inset-y-0 end-1.5 my-1.5 grid w-8 place-items-center rounded-lg text-khorshid-500 hover:bg-khorshid-100 dark:text-khorshid-300 dark:hover:bg-white/10">
+              class="absolute inset-y-0 end-1.5 my-1.5 grid w-8 place-items-center rounded-lg text-bazaar-500 hover:bg-bazaar-100 dark:text-bazaar-300 dark:hover:bg-white/10">
               <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
             </button>
           </div>
-          <ul id="map-search-results" class="hidden mt-1.5 max-h-56 overflow-y-auto rounded-xl border border-khorshid-100 bg-white/98 text-sm text-khorshid-900 shadow-lg backdrop-blur dark:border-white/10 dark:bg-khorshid-900/98 dark:text-khorshid-100"></ul>
+          <ul id="map-search-results" class="hidden mt-1.5 max-h-56 overflow-y-auto rounded-xl border border-bazaar-100 bg-white/98 text-sm text-bazaar-900 shadow-lg backdrop-blur dark:border-white/10 dark:bg-bazaar-900/98 dark:text-bazaar-100"></ul>
         </div>
-        <div id="address-confirm-panel" class="hidden absolute inset-x-3 bottom-3 flex items-start gap-2.5 rounded-xl border border-khorshid-100 bg-white/95 p-3.5 text-sm shadow-lg backdrop-blur dark:border-white/10 dark:bg-khorshid-900/95">
+        <div id="address-confirm-panel" class="hidden absolute inset-x-3 bottom-3 flex items-start gap-2.5 rounded-xl border border-bazaar-100 bg-white/95 p-3.5 text-sm shadow-lg backdrop-blur dark:border-white/10 dark:bg-bazaar-900/95">
           <span id="address-confirm-status" class="mt-0.5 shrink-0">📍</span>
           <div class="min-w-0">
-            <p class="text-[11px] font-medium text-khorshid-500 dark:text-khorshid-400" data-i18n="cart_page.delivery_confirmed">موقعیت تحویل ثبت شد</p>
-            <p id="address-confirm-text" class="mt-0.5 truncate text-khorshid-900 dark:text-khorshid-100"></p>
+            <p class="text-[11px] font-medium text-bazaar-500 dark:text-bazaar-400" data-i18n="cart_page.delivery_confirmed">موقعیت تحویل ثبت شد</p>
+            <p id="address-confirm-text" class="mt-0.5 truncate text-bazaar-900 dark:text-bazaar-100"></p>
           </div>
         </div>
       </div>
       <p id="address-message" class="mt-3 hidden text-xs"></p>
-      <button id="address-save" type="button" class="mt-4 rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.save_address_button">ذخیره آدرس</button>
+      <button id="address-save" type="button" class="mt-4 rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.save_address_button">ذخیره آدرس</button>
     </div>
 
     <!-- SECURITY: change password -->
-    <div class="rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <h2 class="font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="account_page.tab_security">امنیت</h2>
+    <div class="rounded-2xl border border-bazaar-100 bg-white p-6 dark:border-white/5 dark:bg-bazaar-900/40">
+      <h2 class="font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="account_page.tab_security">امنیت</h2>
       <form id="password-form" class="mt-5 grid gap-4 sm:grid-cols-2">
         <div class="sm:col-span-2">
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.current_password">رمز عبور فعلی</label>
-          <input name="current_password" type="password" required class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="account_page.current_password">رمز عبور فعلی</label>
+          <input name="current_password" type="password" required class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <div>
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.new_password">رمز عبور جدید</label>
-          <input name="new_password" type="password" required minlength="6" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="account_page.new_password">رمز عبور جدید</label>
+          <input name="new_password" type="password" required minlength="6" class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <div>
-          <label class="mb-1.5 block text-xs font-medium text-khorshid-700 dark:text-khorshid-300" data-i18n="account_page.confirm_password">تکرار رمز عبور جدید</label>
-          <input name="confirm_password" type="password" required minlength="6" class="w-full rounded-xl border border-khorshid-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-khorshid-500 dark:border-white/10" />
+          <label class="mb-1.5 block text-xs font-medium text-bazaar-700 dark:text-bazaar-300" data-i18n="account_page.confirm_password">تکرار رمز عبور جدید</label>
+          <input name="confirm_password" type="password" required minlength="6" class="w-full rounded-xl border border-bazaar-200 bg-transparent px-3.5 py-2.5 text-sm outline-none focus:border-bazaar-500 dark:border-white/10" />
         </div>
         <p id="password-message" class="hidden sm:col-span-2 text-xs"></p>
         <div class="sm:col-span-2">
-          <button type="submit" class="rounded-xl bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="account_page.change_password_button">تغییر رمز عبور</button>
+          <button type="submit" class="rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.change_password_button">تغییر رمز عبور</button>
         </div>
       </form>
     </div>
@@ -148,10 +149,42 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/scroll-reveal.js"></script>
 <script src="assets/js/api.js"></script>
+<script src="assets/js/cart.js"></script>
 <script src="assets/js/nav.js"></script>
 <script src="assets/js/map.js"></script>
 <script src="assets/js/account.js"></script>
 <script src="assets/js/password-toggle.js"></script>
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav data-bottom-nav class="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-bazaar-100 bg-white/95 backdrop-blur md:hidden dark:border-white/10 dark:bg-bazaar-950/95" style="padding-bottom: env(safe-area-inset-bottom)">
+  <a href="index.html" data-nav-page="home" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.home">خانه</span>
+  </a>
+  <a href="products.html" data-nav-page="products" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.products">محصولات</span>
+  </a>
+  <a href="payment.html" data-nav-page="cart" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <span class="relative">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span data-cart-count class="hidden absolute -top-1.5 -end-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[9px] font-bold text-bazaar-950">0</span>
+    </span>
+    <span class="text-[10px] font-medium" data-i18n="nav.cart">سبد خرید</span>
+  </a>
+  <a href="orders.html" data-nav-page="orders" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v3a1 1 0 0 0 1 1h3"/><path d="M8 12h8M8 16h5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.my_orders">سفارش‌ها</span>
+  </a>
+  <a href="login.html" data-auth-guest data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.login">ورود</span>
+  </a>
+  <a href="account.html" data-auth-user data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.account">حساب من</span>
+  </a>
+</nav>
 </body>
 </html>

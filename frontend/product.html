@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>جزئیات محصول | خورشید</title>
+<title>جزئیات محصول | بازاریو</title>
 
 <script src="assets/js/theme-init.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -13,11 +13,11 @@
     theme: {
       extend: {
         colors: {
-          khorshid: { 950:'#081020', 900:'#0F2A4A', 800:'#153A63', 700:'#1B4F8C', 600:'#2668AC', 500:'#3E7CB8', 300:'#8FBBDE', 100:'#E4EEF8', 50:'#F5F9FD' },
-          sun: { 500:'#F2A83B', 400:'#F5BE64' },
+          bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' },
+          brass: { 500:'#AD8A55', 400:'#C7A96F' },
         },
         fontFamily: {
-          display: ['Vazirmatn', 'sans-serif'],
+          display: ['Amiri', 'serif'],
           body: ['Vazirmatn', 'sans-serif'],
         },
       },
@@ -25,7 +25,8 @@
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/effects.css">
 <style>
   body { font-family: 'Vazirmatn', sans-serif; }
   .font-mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: plaintext; }
@@ -33,52 +34,52 @@
   #related-grid::-webkit-scrollbar-thumb { background: rgba(148,163,184,.5); border-radius: 999px; }
 </style>
 </head>
-<body class="bg-khorshid-50 text-khorshid-950 antialiased dark:bg-khorshid-950 dark:text-khorshid-100">
+<body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
-<header class="sticky top-0 z-40 border-b border-khorshid-100/80 bg-khorshid-50/90 backdrop-blur dark:border-white/5 dark:bg-khorshid-950/90">
+<header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
     <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-khorshid-700 text-sun-400">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
       <span>
-        <span class="block font-display text-lg font-extrabold tracking-tight text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
-        <span class="block text-[11px] text-khorshid-500 dark:text-khorshid-300" data-i18n="brand_sub">توزیع و تعمیرات لوازم خانگی</span>
+        <span class="block font-display text-lg font-extrabold tracking-tight text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
+        <span class="block text-[11px] text-bazaar-500 dark:text-bazaar-300" data-i18n="brand_sub">توزیع و تعمیرات لوازم خانگی</span>
       </span>
     </a>
     <nav class="hidden items-center gap-7 text-sm font-medium md:flex">
-      <a href="index.html" class="text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.home">خانه</a>
-      <a href="products.html" class="text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.products">محصولات</a>
-      <a href="repair.html" class="text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.repair">تعمیرات</a>
-      <a href="orders.html" data-auth-user class="hidden text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.my_orders">سفارش‌های من</a>
-      <a href="admin.html" data-admin-only class="hidden text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.admin">پنل مدیریت</a>
-      <a href="payment.html" class="relative text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300">
+      <a href="index.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.home">خانه</a>
+      <a href="products.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.products">محصولات</a>
+      <a href="repair.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.repair">تعمیرات</a>
+      <a href="orders.html" data-auth-user class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.my_orders">سفارش‌های من</a>
+      <a href="admin.html" data-admin-only class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.admin">پنل مدیریت</a>
+      <a href="payment.html" class="relative text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300">
         <span data-i18n="nav.cart">سبد خرید</span>
-        <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-sun-500 px-1 text-[10px] font-bold text-khorshid-950">0</span>
+        <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[10px] font-bold text-bazaar-950">0</span>
       </a>
     </nav>
     <div class="flex items-center gap-2">
-      <button data-lang-toggle class="rounded-full border border-khorshid-200 px-3 py-1.5 text-xs font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5">
+      <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
-      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 text-sm hover:bg-khorshid-100 dark:border-white/10 dark:hover:bg-white/5">
+      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-bazaar-200 text-sm hover:bg-bazaar-100 dark:border-white/10 dark:hover:bg-white/5">
         <span data-theme-icon>🌙</span>
       </button>
-      <a href="login.html" data-auth-guest class="hidden rounded-full px-3 py-1.5 text-sm font-medium text-khorshid-700 hover:text-khorshid-900 dark:text-khorshid-300" data-i18n="nav.login">ورود</a>
-      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-khorshid-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-khorshid-800" data-i18n="nav.signup">ثبت‌نام</a>
-      <div data-auth-user class="hidden items-center gap-2">
+      <a href="login.html" data-auth-guest class="hidden rounded-full px-3 py-1.5 text-sm font-medium text-bazaar-700 hover:text-bazaar-900 dark:text-bazaar-300" data-i18n="nav.login">ورود</a>
+      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-bazaar-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-bazaar-800" data-i18n="nav.signup">ثبت‌نام</a>
+      <div data-auth-user data-auth-flex="flex" class="hidden items-center gap-2">
         <a href="account.html" class="flex items-center gap-2" title="حساب کاربری من">
-          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-xs font-bold text-white"></span>
-          <span data-user-name class="max-w-[7rem] truncate text-sm font-medium text-khorshid-800 dark:text-khorshid-200"></span>
+          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-xs font-bold text-white"></span>
+          <span data-user-name class="max-w-[7rem] truncate text-sm font-medium text-bazaar-800 dark:text-bazaar-200"></span>
         </a>
-        <button data-logout class="text-xs text-khorshid-500 hover:text-khorshid-800 dark:text-khorshid-400" data-i18n="nav.logout">خروج</button>
+        <button data-logout class="text-xs text-bazaar-500 hover:text-bazaar-800 dark:text-bazaar-400" data-i18n="nav.logout">خروج</button>
       </div>
-      <button data-menu-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 md:hidden dark:border-white/10">
+      <button data-menu-toggle class="grid h-9 w-9 place-items-center rounded-full border border-bazaar-200 md:hidden dark:border-white/10">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </div>
-  <div data-mobile-menu class="hidden border-t border-khorshid-100 px-5 py-4 md:hidden dark:border-white/5">
+  <div data-mobile-menu class="hidden border-t border-bazaar-100 px-5 py-4 md:hidden dark:border-white/5">
     <div class="flex flex-col gap-3 text-sm font-medium">
       <a href="index.html" data-i18n="nav.home">خانه</a>
       <a href="repair.html" data-i18n="nav.repair">تعمیرات</a>
@@ -87,9 +88,9 @@
       <a href="admin.html" data-admin-only class="hidden" data-i18n="nav.admin">پنل مدیریت</a>
       <a href="login.html" data-auth-guest data-i18n="nav.login">ورود</a>
       <a href="signup.html" data-auth-guest data-i18n="nav.signup">ثبت‌نام</a>
-      <div data-auth-user class="hidden items-center gap-2">
+      <div data-auth-user data-auth-flex="flex" class="hidden items-center gap-2">
         <a href="account.html" class="flex flex-1 items-center gap-2 min-w-0">
-          <span data-user-avatar class="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-[11px] font-bold text-white"></span>
+          <span data-user-avatar class="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-[11px] font-bold text-white"></span>
           <span data-user-name class="flex-1 truncate text-sm font-medium"></span>
         </a>
         <button data-logout class="text-xs text-rose-500" data-i18n="nav.logout">خروج</button>
@@ -101,25 +102,25 @@
 <section class="mx-auto max-w-7xl px-5 py-8">
 
   <!-- breadcrumb -->
-  <nav class="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-khorshid-500 dark:text-khorshid-400">
-    <a href="index.html" class="hover:text-khorshid-800 dark:hover:text-khorshid-200" data-i18n="nav.home">خانه</a>
+  <nav class="mb-6 flex flex-wrap items-center gap-1.5 text-xs text-bazaar-500 dark:text-bazaar-400">
+    <a href="index.html" class="hover:text-bazaar-800 dark:hover:text-bazaar-200" data-i18n="nav.home">خانه</a>
     <span>/</span>
-    <a href="products.html" class="hover:text-khorshid-800 dark:hover:text-khorshid-200" data-i18n="nav.products">محصولات</a>
+    <a href="products.html" class="hover:text-bazaar-800 dark:hover:text-bazaar-200" data-i18n="nav.products">محصولات</a>
     <span>/</span>
-    <span id="breadcrumb-category" class="text-khorshid-700 dark:text-khorshid-300"></span>
+    <span id="breadcrumb-category" class="text-bazaar-700 dark:text-bazaar-300"></span>
     <span>/</span>
-    <span id="breadcrumb-name" class="truncate text-khorshid-900 dark:text-khorshid-100"></span>
+    <span id="breadcrumb-name" class="truncate text-bazaar-900 dark:text-bazaar-100"></span>
   </nav>
 
   <!-- loading -->
-  <div id="product-loading" class="py-24 text-center text-sm text-khorshid-500 dark:text-khorshid-400">
+  <div id="product-loading" class="py-24 text-center text-sm text-bazaar-500 dark:text-bazaar-400">
     <span data-i18n="products_page.loading">در حال دریافت اطلاعات محصولات…</span>
   </div>
 
   <!-- not found / error -->
   <div id="product-error" class="hidden py-24 text-center">
     <p class="text-sm text-rose-600 dark:text-rose-400" data-i18n="product_detail_page.not_found">این محصول یافت نشد.</p>
-    <a href="products.html" class="mt-4 inline-block rounded-full bg-khorshid-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-khorshid-800" data-i18n="product_detail_page.back_to_products">بازگشت به محصولات</a>
+    <a href="products.html" class="mt-4 inline-block rounded-full bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="product_detail_page.back_to_products">بازگشت به محصولات</a>
   </div>
 
   <!-- main content, filled by product.js -->
@@ -128,7 +129,7 @@
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
       <!-- gallery -->
       <div>
-        <div class="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-khorshid-100 bg-gradient-to-br from-sky-50 to-blue-100 dark:border-white/10 dark:from-slate-800 dark:to-slate-900">
+        <div class="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-bazaar-100 bg-gradient-to-br from-bazaar-50 to-bazaar-100 dark:border-white/10 dark:from-bazaar-800 dark:to-bazaar-900">
           <img id="gallery-main-img" src="" alt="" class="h-full w-full object-cover" />
         </div>
         <div id="gallery-thumbs" class="mt-3 flex gap-2.5 overflow-x-auto pb-1"></div>
@@ -136,83 +137,114 @@
 
       <!-- info -->
       <div class="flex flex-col">
-        <span id="product-category-badge" class="w-fit rounded-full bg-khorshid-100 px-3 py-1 text-xs font-medium text-khorshid-700 dark:bg-white/5 dark:text-khorshid-300"></span>
-        <h1 id="product-title" class="mt-3 font-display text-2xl font-bold leading-snug text-khorshid-950 dark:text-white"></h1>
-        <p class="mt-1.5 text-xs text-khorshid-500 dark:text-khorshid-400">
+        <span id="product-category-badge" class="w-fit rounded-full bg-bazaar-100 px-3 py-1 text-xs font-medium text-bazaar-700 dark:bg-white/5 dark:text-bazaar-300"></span>
+        <h1 id="product-title" class="mt-3 font-display text-2xl font-bold leading-snug text-bazaar-950 dark:text-white"></h1>
+        <p class="mt-1.5 text-xs text-bazaar-500 dark:text-bazaar-400">
           <span data-i18n="product_detail_page.sku_label">کد کالا</span>: <span id="product-sku" class="font-mono"></span>
         </p>
 
         <div id="product-rating-summary" class="mt-3 hidden items-center gap-2 text-sm"></div>
 
-        <div class="mt-6 flex items-end justify-between rounded-2xl border border-khorshid-100 bg-white p-5 dark:border-white/10 dark:bg-khorshid-900/40">
+        <div class="mt-6 flex items-end justify-between rounded-2xl border border-bazaar-100 bg-white p-5 dark:border-white/10 dark:bg-bazaar-900/40">
           <div>
-            <p id="product-price" class="font-mono text-2xl font-bold text-blue-900 dark:text-blue-300"></p>
+            <p id="product-price" class="font-mono text-2xl font-bold text-bazaar-900 dark:text-bazaar-300"></p>
             <p id="product-stock" class="mt-1.5 text-xs font-medium"></p>
           </div>
         </div>
 
         <div class="mt-4 flex items-center gap-3">
-          <div class="flex items-center gap-2 rounded-xl border border-khorshid-200 px-2 py-1.5 dark:border-white/10">
-            <span class="text-xs text-khorshid-500 dark:text-khorshid-400" data-i18n="product_detail_page.qty_label">تعداد</span>
-            <button id="qty-decrement" type="button" class="grid h-7 w-7 place-items-center rounded-lg text-khorshid-700 hover:bg-khorshid-100 dark:text-khorshid-300 dark:hover:bg-white/5">−</button>
+          <div class="flex items-center gap-2 rounded-xl border border-bazaar-200 px-2 py-1.5 dark:border-white/10">
+            <span class="text-xs text-bazaar-500 dark:text-bazaar-400" data-i18n="product_detail_page.qty_label">تعداد</span>
+            <button id="qty-decrement" type="button" class="grid h-7 w-7 place-items-center rounded-lg text-bazaar-700 hover:bg-bazaar-100 dark:text-bazaar-300 dark:hover:bg-white/5">−</button>
             <span id="qty-value" class="w-6 text-center font-mono text-sm">1</span>
-            <button id="qty-increment" type="button" class="grid h-7 w-7 place-items-center rounded-lg text-khorshid-700 hover:bg-khorshid-100 dark:text-khorshid-300 dark:hover:bg-white/5">+</button>
+            <button id="qty-increment" type="button" class="grid h-7 w-7 place-items-center rounded-lg text-bazaar-700 hover:bg-bazaar-100 dark:text-bazaar-300 dark:hover:bg-white/5">+</button>
           </div>
-          <button id="add-to-cart-btn" class="flex-1 rounded-xl bg-blue-900 py-3 text-sm font-semibold text-white transition hover:bg-blue-800 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 dark:bg-blue-600 dark:hover:bg-blue-500 dark:disabled:bg-slate-700">
+          <button id="add-to-cart-btn" class="flex-1 rounded-xl bg-bazaar-700 py-3 text-sm font-semibold text-white transition hover:bg-bazaar-800 disabled:cursor-not-allowed disabled:bg-bazaar-200 disabled:text-bazaar-500 dark:bg-bazaar-600 dark:hover:bg-bazaar-500 dark:disabled:bg-bazaar-800">
             <span data-i18n="products_page.add_to_cart">افزودن به سبد خرید</span>
           </button>
         </div>
 
         <!-- description -->
         <div class="mt-8">
-          <h2 class="font-display text-base font-bold text-khorshid-950 dark:text-white" data-i18n="product_detail_page.description_title">توضیحات محصول</h2>
-          <p id="product-description" class="mt-2.5 text-sm leading-7 text-khorshid-700 dark:text-khorshid-300"></p>
+          <h2 class="font-display text-base font-bold text-bazaar-950 dark:text-white" data-i18n="product_detail_page.description_title">توضیحات محصول</h2>
+          <p id="product-description" class="mt-2.5 text-sm leading-7 text-bazaar-700 dark:text-bazaar-300"></p>
         </div>
       </div>
     </div>
 
     <!-- specs -->
     <div class="mt-14">
-      <h2 class="font-display text-lg font-bold text-khorshid-950 dark:text-white" data-i18n="product_detail_page.specs_title">مشخصات فنی</h2>
-      <div id="specs-table" class="mt-4 overflow-hidden rounded-2xl border border-khorshid-100 dark:border-white/10"></div>
+      <h2 class="font-display text-lg font-bold text-bazaar-950 dark:text-white" data-i18n="product_detail_page.specs_title">مشخصات فنی</h2>
+      <div id="specs-table" class="mt-4 overflow-hidden rounded-2xl border border-bazaar-100 dark:border-white/10"></div>
     </div>
 
     <!-- related products -->
     <div class="mt-14">
-      <h2 class="font-display text-lg font-bold text-khorshid-950 dark:text-white" data-i18n="product_detail_page.related_title">محصولات مشابه</h2>
+      <h2 class="font-display text-lg font-bold text-bazaar-950 dark:text-white" data-i18n="product_detail_page.related_title">محصولات مشابه</h2>
       <div id="related-grid" class="mt-4 grid grid-flow-col auto-cols-[75%] gap-4 overflow-x-auto pb-2 sm:auto-cols-[45%] lg:auto-cols-[23%]"></div>
-      <p id="related-empty" class="hidden mt-4 text-sm text-khorshid-500 dark:text-khorshid-400" data-i18n="product_detail_page.no_related">محصول مشابهی یافت نشد.</p>
+      <p id="related-empty" class="hidden mt-4 text-sm text-bazaar-500 dark:text-bazaar-400" data-i18n="product_detail_page.no_related">محصول مشابهی یافت نشد.</p>
     </div>
 
     <!-- reviews -->
     <div class="mt-14 max-w-3xl">
       <div class="flex items-center justify-between gap-3">
-        <h2 class="font-display text-lg font-bold text-khorshid-950 dark:text-white" data-i18n="product_detail_page.reviews_title">نظرات کاربران</h2>
-        <span id="reviews-count-label" class="text-xs text-khorshid-500 dark:text-khorshid-400"></span>
+        <h2 class="font-display text-lg font-bold text-bazaar-950 dark:text-white" data-i18n="product_detail_page.reviews_title">نظرات کاربران</h2>
+        <span id="reviews-count-label" class="text-xs text-bazaar-500 dark:text-bazaar-400"></span>
       </div>
 
       <!-- review form -->
-      <div id="review-form-box" class="mt-5 rounded-2xl border border-khorshid-100 bg-white p-5 dark:border-white/10 dark:bg-khorshid-900/40"></div>
+      <div id="review-form-box" class="mt-5 rounded-2xl border border-bazaar-100 bg-white p-5 dark:border-white/10 dark:bg-bazaar-900/40"></div>
 
       <!-- review list -->
       <div id="reviews-list" class="mt-6 flex flex-col gap-5"></div>
-      <p id="reviews-empty" class="hidden mt-4 text-sm text-khorshid-500 dark:text-khorshid-400" data-i18n="product_detail_page.no_reviews">هنوز نظری برای این محصول ثبت نشده؛ اولین نفری باشید که نظر می‌دهد.</p>
+      <p id="reviews-empty" class="hidden mt-4 text-sm text-bazaar-500 dark:text-bazaar-400" data-i18n="product_detail_page.no_reviews">هنوز نظری برای این محصول ثبت نشده؛ اولین نفری باشید که نظر می‌دهد.</p>
     </div>
 
   </div>
 </section>
 
-<footer class="border-t border-khorshid-100 py-8 text-center text-xs text-khorshid-500 dark:border-white/5 dark:text-khorshid-500">
-  <span data-i18n="footer.rights">تمامی حقوق برای شرکت خورشید محفوظ است.</span>
+<footer class="border-t border-bazaar-100 py-8 text-center text-xs text-bazaar-500 dark:border-white/5 dark:text-bazaar-500">
+  <span data-i18n="footer.rights">تمامی حقوق برای شرکت بازاریو محفوظ است.</span>
 </footer>
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/scroll-reveal.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/cart.js"></script>
 <script src="assets/js/cart-drawer.js"></script>
 <script src="assets/js/nav.js"></script>
 <script src="assets/js/products.js"></script>
 <script src="assets/js/product.js"></script>
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav data-bottom-nav class="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-bazaar-100 bg-white/95 backdrop-blur md:hidden dark:border-white/10 dark:bg-bazaar-950/95" style="padding-bottom: env(safe-area-inset-bottom)">
+  <a href="index.html" data-nav-page="home" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.home">خانه</span>
+  </a>
+  <a href="products.html" data-nav-page="products" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.products">محصولات</span>
+  </a>
+  <a href="payment.html" data-nav-page="cart" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <span class="relative">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span data-cart-count class="hidden absolute -top-1.5 -end-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[9px] font-bold text-bazaar-950">0</span>
+    </span>
+    <span class="text-[10px] font-medium" data-i18n="nav.cart">سبد خرید</span>
+  </a>
+  <a href="orders.html" data-nav-page="orders" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v3a1 1 0 0 0 1 1h3"/><path d="M8 12h8M8 16h5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.my_orders">سفارش‌ها</span>
+  </a>
+  <a href="login.html" data-auth-guest data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.login">ورود</span>
+  </a>
+  <a href="account.html" data-auth-user data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.account">حساب من</span>
+  </a>
+</nav>
 </body>
 </html>

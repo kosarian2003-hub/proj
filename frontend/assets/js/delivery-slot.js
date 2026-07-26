@@ -28,12 +28,12 @@
   let blockedDates = new Set(); // ISO date strings ("YYYY-MM-DD") the admin disabled
 
   function t(key, fallback) {
-    const val = window.KhorshidI18n ? window.KhorshidI18n.t(key) : null;
+    const val = window.BazaarI18n ? window.BazaarI18n.t(key) : null;
     return val !== null && val !== undefined ? val : fallback;
   }
 
   function currentLang() {
-    return window.KhorshidI18n ? window.KhorshidI18n.currentLang() : "fa";
+    return window.BazaarI18n ? window.BazaarI18n.currentLang() : "fa";
   }
 
   function toISODate(date) {
@@ -88,41 +88,41 @@
   function dayChipHTML(active, parts, blocked) {
     if (blocked) {
       return `
-        <span class="text-[10px] font-medium text-khorshid-300 dark:text-khorshid-600">${parts.weekday}</span>
+        <span class="text-[10px] font-medium text-bazaar-300 dark:text-bazaar-600">${parts.weekday}</span>
         <span class="mt-1 text-lg font-extrabold leading-none line-through">${parts.dayNum}</span>
-        <span class="mt-0.5 text-[9px] text-khorshid-300 dark:text-khorshid-600">${t("cart_page.delivery_date_full", "تکمیل")}</span>`;
+        <span class="mt-0.5 text-[9px] text-bazaar-300 dark:text-bazaar-600">${t("cart_page.delivery_date_full", "تکمیل")}</span>`;
     }
     return `
-      <span class="text-[10px] font-medium ${active ? "text-white/80" : "text-khorshid-500 dark:text-khorshid-400"}">${parts.weekday}</span>
+      <span class="text-[10px] font-medium ${active ? "text-white/80" : "text-bazaar-500 dark:text-bazaar-400"}">${parts.weekday}</span>
       <span class="mt-1 text-lg font-extrabold leading-none">${parts.dayNum}</span>
-      <span class="mt-0.5 text-[10px] ${active ? "text-white/80" : "text-khorshid-400 dark:text-khorshid-500"}">${parts.month}</span>`;
+      <span class="mt-0.5 text-[10px] ${active ? "text-white/80" : "text-bazaar-400 dark:text-bazaar-500"}">${parts.month}</span>`;
   }
 
   function dayBtnClass(active, blocked) {
     if (blocked) {
       return (
         "flex shrink-0 cursor-not-allowed flex-col items-center justify-center rounded-2xl border-2 px-3.5 py-2.5 min-w-[62px] " +
-        "border-khorshid-100 bg-khorshid-50 opacity-50 dark:border-white/5 dark:bg-white/5"
+        "border-bazaar-100 bg-bazaar-50 opacity-50 dark:border-white/5 dark:bg-white/5"
       );
     }
     return (
       "flex shrink-0 flex-col items-center justify-center rounded-2xl border-2 px-3.5 py-2.5 min-w-[62px] transition-all " +
       (active
-        ? "border-khorshid-700 bg-khorshid-700 text-white shadow-md shadow-khorshid-700/20"
-        : "border-khorshid-100 bg-white text-khorshid-900 hover:border-khorshid-300 hover:bg-khorshid-50 dark:border-white/10 dark:bg-khorshid-950/30 dark:text-khorshid-100 dark:hover:border-white/20 dark:hover:bg-white/5")
+        ? "border-bazaar-700 bg-bazaar-700 text-white shadow-md shadow-bazaar-700/20"
+        : "border-bazaar-100 bg-white text-bazaar-900 hover:border-bazaar-300 hover:bg-bazaar-50 dark:border-white/10 dark:bg-bazaar-950/30 dark:text-bazaar-100 dark:hover:border-white/20 dark:hover:bg-white/5")
     );
   }
 
   function windowCardHTML(w, active) {
     return `
       <span class="grid h-9 w-9 place-items-center rounded-full ${
-        active ? "bg-white/15 text-white" : "bg-khorshid-50 text-khorshid-600 dark:bg-white/5 dark:text-khorshid-300"
+        active ? "bg-white/15 text-white" : "bg-bazaar-50 text-bazaar-600 dark:bg-white/5 dark:text-bazaar-300"
       }">${w.icon}</span>
       <span class="mt-2 text-xs font-bold">${windowShortLabel(w)}</span>
-      <span class="mt-0.5 text-[10px] ${active ? "text-white/80" : "text-khorshid-400 dark:text-khorshid-500"}">${windowHours(w)}</span>
+      <span class="mt-0.5 text-[10px] ${active ? "text-white/80" : "text-bazaar-400 dark:text-bazaar-500"}">${windowHours(w)}</span>
       ${
         active
-          ? `<span class="absolute -top-1.5 -end-1.5 grid h-5 w-5 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white dark:ring-khorshid-900">${CHECK_ICON}</span>`
+          ? `<span class="absolute -top-1.5 -end-1.5 grid h-5 w-5 place-items-center rounded-full bg-emerald-500 text-white ring-2 ring-white dark:ring-bazaar-900">${CHECK_ICON}</span>`
           : ""
       }`;
   }
@@ -131,8 +131,8 @@
     return (
       "relative flex flex-col items-center rounded-2xl border-2 px-3 py-3.5 transition-all " +
       (active
-        ? "border-khorshid-700 bg-khorshid-700 text-white shadow-md shadow-khorshid-700/20"
-        : "border-khorshid-100 bg-white text-khorshid-900 hover:border-khorshid-300 hover:bg-khorshid-50 dark:border-white/10 dark:bg-khorshid-950/30 dark:text-khorshid-100 dark:hover:border-white/20 dark:hover:bg-white/5")
+        ? "border-bazaar-700 bg-bazaar-700 text-white shadow-md shadow-bazaar-700/20"
+        : "border-bazaar-100 bg-white text-bazaar-900 hover:border-bazaar-300 hover:bg-bazaar-50 dark:border-white/10 dark:bg-bazaar-950/30 dark:text-bazaar-100 dark:hover:border-white/20 dark:hover:bg-white/5")
     );
   }
 
@@ -250,8 +250,8 @@
 
   async function fetchBlockedDates() {
     try {
-      const res = await (window.KhorshidAPI
-        ? window.KhorshidAPI.get("/api/delivery/blocked-dates")
+      const res = await (window.BazaarAPI
+        ? window.BazaarAPI.get("/api/delivery/blocked-dates")
         : fetch("/api/delivery/blocked-dates").then((r) => r.json()));
       blockedDates = new Set((res && res.dates) || []);
     } catch (e) {
@@ -275,7 +275,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", init);
-  document.addEventListener("khorshid:translated", () => {
+  document.addEventListener("bazaar:translated", () => {
     if (document.getElementById("delivery-day-list")) {
       renderDays();
       renderWindows();
@@ -283,5 +283,5 @@
     }
   });
 
-  window.KhorshidDeliverySlot = { getSlot: getSlot, refresh: refresh };
+  window.BazaarDeliverySlot = { getSlot: getSlot, refresh: refresh };
 })();

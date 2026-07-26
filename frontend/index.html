@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>خورشید | توزیع و تعمیرات لوازم خانگی</title>
-<meta name="description" content="خورشید، توزیع‌کننده رسمی و مرکز تخصصی تعمیرات لوازم خانگی با گارانتی واقعی و خدمات درب منزل.">
+<title>بازاریو | توزیع و تعمیرات لوازم خانگی</title>
+<meta name="description" content="بازاریو، توزیع‌کننده رسمی و مرکز تخصصی تعمیرات لوازم خانگی با گارانتی واقعی و خدمات درب منزل.">
 
 <!-- Must run before Tailwind / first paint, to avoid a theme flash -->
 <script src="assets/js/theme-init.js"></script>
@@ -16,11 +16,11 @@
     theme: {
       extend: {
         colors: {
-          khorshid: { 950:'#081020', 900:'#0F2A4A', 800:'#153A63', 700:'#1B4F8C', 600:'#2668AC', 500:'#3E7CB8', 300:'#8FBBDE', 100:'#E4EEF8', 50:'#F5F9FD' },
-          sun: { 500:'#F2A83B', 400:'#F5BE64' },
+          bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' },
+          brass: { 500:'#AD8A55', 400:'#C7A96F' },
         },
         fontFamily: {
-          display: ['Vazirmatn', 'sans-serif'],
+          display: ['Amiri', 'serif'],
           body: ['Vazirmatn', 'sans-serif'],
           mono: ['IBM Plex Mono', 'monospace'],
         },
@@ -29,121 +29,127 @@
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Amiri:wght@400;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/effects.css">
 
 <style>
   body { font-family: 'Vazirmatn', sans-serif; }
   .font-mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: plaintext; }
-  .sunrise-glow {
-    background: radial-gradient(circle at 50% 0%, rgba(242,168,59,0.18), transparent 55%),
-                radial-gradient(circle at 85% 15%, rgba(27,79,140,0.25), transparent 45%);
+
+  /* hero backdrop: warm cream wash behind the rosette motif, deepens at the edges */
+  .hero-sky {
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(173,138,85,0.14), transparent 60%),
+      linear-gradient(180deg, #FDFBF4 0%, #F7F2E4 55%, #EFE8D6 100%);
+  }
+  .dark .hero-sky {
+    background:
+      radial-gradient(120% 90% at 50% 0%, rgba(199,169,111,0.10), transparent 60%),
+      linear-gradient(180deg, #131F17 0%, #182A1D 55%, #1E2F22 100%);
+  }
+  .hero-motif {
+    filter: drop-shadow(0 0 32px rgba(173,138,85,.35));
   }
   @media (prefers-reduced-motion: no-preference) {
+    .hero-motif { animation: motifGlow 7s ease-in-out infinite; }
     .fade-up { animation: fadeUp .7s ease both; }
     .fade-up-delay-1 { animation: fadeUp .7s .12s ease both; }
     .fade-up-delay-2 { animation: fadeUp .7s .24s ease both; }
   }
   @keyframes fadeUp { from { opacity:0; transform: translateY(14px);} to { opacity:1; transform:none; } }
+  @keyframes motifGlow {
+    0%, 100% { filter: drop-shadow(0 0 32px rgba(173,138,85,.35)); transform: rotate(0deg); }
+    50%      { filter: drop-shadow(0 0 46px rgba(173,138,85,.55)); transform: rotate(4deg); }
+  }
 </style>
 </head>
-<body class="bg-khorshid-50 text-khorshid-950 antialiased dark:bg-khorshid-950 dark:text-khorshid-100">
+<body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
 <!-- ============ NAV ============ -->
-<header class="sticky top-0 z-40 border-b border-khorshid-100/80 bg-khorshid-50/90 backdrop-blur dark:border-white/5 dark:bg-khorshid-950/90">
+<header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
   <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
     <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-khorshid-700 text-sun-400 shadow-sm dark:bg-khorshid-700">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400 shadow-sm dark:bg-bazaar-700">
+        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
       <span>
-        <span class="block font-display text-lg font-extrabold tracking-tight text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
-        <span class="block text-[11px] text-khorshid-500 dark:text-khorshid-300" data-i18n="brand_sub">توزیع و تعمیرات لوازم خانگی</span>
+        <span class="block font-display text-lg font-extrabold tracking-tight text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
+        <span class="block text-[11px] text-bazaar-500 dark:text-bazaar-300" data-i18n="brand_sub">توزیع و تعمیرات لوازم خانگی</span>
       </span>
     </a>
 
     <nav class="hidden items-center gap-7 text-sm font-medium md:flex">
-      <a href="index.html" class="text-khorshid-900 hover:text-khorshid-700 dark:text-khorshid-100" data-i18n="nav.home">خانه</a>
-      <a href="products.html" class="text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.products">محصولات</a>
-      <a href="repair.html" class="text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.repair">تعمیرات</a>
-      <a href="orders.html" data-auth-user class="hidden text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.my_orders">سفارش‌های من</a>
-      <a href="admin.html" data-admin-only class="hidden text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300" data-i18n="nav.admin">پنل مدیریت</a>
-      <a href="payment.html" class="relative text-khorshid-700/80 hover:text-khorshid-700 dark:text-khorshid-300">
+      <a href="index.html" class="text-bazaar-900 hover:text-bazaar-700 dark:text-bazaar-100" data-i18n="nav.home">خانه</a>
+      <a href="products.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.products">محصولات</a>
+      <a href="repair.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.repair">تعمیرات</a>
+      <a href="orders.html" data-auth-user class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.my_orders">سفارش‌های من</a>
+      <a href="admin.html" data-admin-only class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.admin">پنل مدیریت</a>
+      <a href="payment.html" class="relative text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300">
         <span data-i18n="nav.cart">سبد خرید</span>
-        <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-sun-500 px-1 text-[10px] font-bold text-khorshid-950">0</span>
+        <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[10px] font-bold text-bazaar-950">0</span>
       </a>
     </nav>
 
     <div class="flex items-center gap-2">
-      <button data-lang-toggle class="rounded-full border border-khorshid-200 px-3 py-1.5 text-xs font-semibold text-khorshid-700 hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5">
+      <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
-      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 text-sm hover:bg-khorshid-100 dark:border-white/10 dark:hover:bg-white/5">
+      <button data-theme-toggle class="grid h-9 w-9 place-items-center rounded-full border border-bazaar-200 text-sm hover:bg-bazaar-100 dark:border-white/10 dark:hover:bg-white/5">
         <span data-theme-icon>🌙</span>
       </button>
 
-      <a href="login.html" data-auth-guest class="hidden rounded-full px-3 py-1.5 text-sm font-medium text-khorshid-700 hover:text-khorshid-900 dark:text-khorshid-300" data-i18n="nav.login">ورود</a>
-      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-khorshid-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-khorshid-800" data-i18n="nav.signup">ثبت‌نام</a>
-      <div data-auth-user class="hidden items-center gap-2">
+      <a href="login.html" data-auth-guest class="hidden rounded-full px-3 py-1.5 text-sm font-medium text-bazaar-700 hover:text-bazaar-900 dark:text-bazaar-300" data-i18n="nav.login">ورود</a>
+      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-bazaar-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-bazaar-800" data-i18n="nav.signup">ثبت‌نام</a>
+      <div data-auth-user data-auth-flex="flex" class="hidden items-center gap-2">
         <a href="account.html" class="flex items-center gap-2" title="حساب کاربری من">
-          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-xs font-bold text-white"></span>
-          <span data-user-name class="max-w-[7rem] truncate text-sm font-medium text-khorshid-800 dark:text-khorshid-200"></span>
+          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-xs font-bold text-white"></span>
+          <span data-user-name class="max-w-[7rem] truncate text-sm font-medium text-bazaar-800 dark:text-bazaar-200"></span>
         </a>
-        <button data-logout class="text-xs text-khorshid-500 hover:text-khorshid-800 dark:text-khorshid-400" data-i18n="nav.logout">خروج</button>
+        <button data-logout class="text-xs text-bazaar-500 hover:text-bazaar-800 dark:text-bazaar-400" data-i18n="nav.logout">خروج</button>
       </div>
 
-      <button data-menu-toggle class="grid h-9 w-9 place-items-center rounded-full border border-khorshid-200 md:hidden dark:border-white/10">
-        <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-  </div>
-  <div data-mobile-menu class="hidden border-t border-khorshid-100 px-5 py-4 md:hidden dark:border-white/5">
-    <div class="flex flex-col gap-3 text-sm font-medium">
-      <a href="products.html" data-i18n="nav.products">محصولات</a>
-      <a href="repair.html" data-i18n="nav.repair">تعمیرات</a>
-      <a href="payment.html" data-i18n="nav.cart">سبد خرید</a>
-      <a href="orders.html" data-auth-user class="hidden" data-i18n="nav.my_orders">سفارش‌های من</a>
-      <a href="admin.html" data-admin-only class="hidden" data-i18n="nav.admin">پنل مدیریت</a>
-      <a href="login.html" data-auth-guest data-i18n="nav.login">ورود</a>
-      <a href="signup.html" data-auth-guest data-i18n="nav.signup">ثبت‌نام</a>
-      <div data-auth-user class="hidden items-center gap-2">
-        <a href="account.html" class="flex flex-1 items-center gap-2 min-w-0">
-          <span data-user-avatar class="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-khorshid-700 text-[11px] font-bold text-white"></span>
-          <span data-user-name class="flex-1 truncate text-sm font-medium"></span>
-        </a>
-        <button data-logout class="text-xs text-rose-500" data-i18n="nav.logout">خروج</button>
-      </div>
     </div>
   </div>
 </header>
 
 <!-- ============ HERO ============ -->
 
-<section class="sunrise-glow relative overflow-hidden border-b border-khorshid-100 dark:border-white/5">
-  <div class="mx-auto grid max-w-7xl gap-10 px-5 py-14 lg:grid-cols-2 lg:items-center lg:py-20">
+<section class="hero-sky relative overflow-hidden border-b border-bazaar-100 dark:border-white/5" data-parallax-scope>
+  <!-- signature: a geometric bazaar rosette (girih star) that drifts gently with the scroll -->
+  <div class="pointer-events-none absolute -top-14 left-1/2 h-80 w-80 -translate-x-1/2">
+    <svg data-parallax="0.3" class="hero-motif h-80 w-80 opacity-90" viewBox="0 0 200 200" aria-hidden="true">
+      <circle cx="100" cy="100" r="92" fill="none" stroke="#AD8A55" stroke-width="1.5" opacity="0.35"/>
+      <path d="M 100.0 22.0 L 113.0 68.6 L 155.2 44.8 L 131.4 87.0 L 178.0 100.0 L 131.4 113.0 L 155.2 155.2 L 113.0 131.4 L 100.0 178.0 L 87.0 131.4 L 44.8 155.2 L 68.6 113.0 L 22.0 100.0 L 68.6 87.0 L 44.8 44.8 L 87.0 68.6 Z"
+        fill="#3B5942" fill-opacity="0.08" stroke="#AD8A55" stroke-width="2.5" stroke-linejoin="round"/>
+      <circle cx="100" cy="100" r="20" fill="none" stroke="#AD8A55" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <div class="relative mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-2 lg:items-center lg:py-24">
     <div class="fade-up">
-      <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-sun-500/40 bg-sun-500/10 px-3 py-1 text-xs font-semibold text-khorshid-800 dark:text-sun-400" data-i18n="hero.eyebrow">
+      <p class="mb-4 inline-flex items-center gap-2 rounded-full border border-brass-500/40 bg-brass-500/10 px-3 py-1 text-xs font-semibold text-bazaar-800 dark:text-brass-400" data-i18n="hero.eyebrow">
         بیش از ۱۵ سال کنار خانواده‌های ایرانی
       </p>
-      <h1 class="font-display text-3xl font-extrabold leading-[1.35] tracking-tight text-khorshid-950 sm:text-4xl lg:text-[2.6rem] dark:text-white" data-i18n="hero.title">
+      <h1 class="font-display text-4xl font-extrabold leading-[1.25] tracking-tight text-bazaar-950 sm:text-5xl lg:text-[3.4rem] dark:text-white" data-i18n="hero.title">
         لوازم خانه‌ای که می‌شناسیم، تعمیراتی که به آن‌ها اعتماد داریم
       </h1>
-      <p class="mt-5 max-w-lg text-[15px] leading-8 text-khorshid-700/90 dark:text-khorshid-300" data-i18n="hero.subtitle">
-        خورشید، توزیع‌کننده‌ی رسمی لوازم خانگی و مرکز تعمیرات تخصصی با گارانتی واقعی و خدمات درب منزل.
+      <p class="mt-6 max-w-lg text-base leading-8 text-bazaar-700/90 dark:text-bazaar-300" data-i18n="hero.subtitle">
+        بازاریو، توزیع‌کننده‌ی رسمی لوازم خانگی و مرکز تعمیرات تخصصی با گارانتی واقعی و خدمات درب منزل.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a href="products.html" class="rounded-xl bg-khorshid-700 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-khorshid-700/20 transition hover:bg-khorshid-800" data-i18n="hero.cta_primary">مشاهده محصولات</a>
-        <a href="#steps" class="rounded-xl border border-khorshid-200 px-6 py-3 text-sm font-semibold text-khorshid-800 transition hover:bg-khorshid-100 dark:border-white/10 dark:text-khorshid-200 dark:hover:bg-white/5" data-i18n="hero.cta_secondary">درخواست تعمیر</a>
+        <a href="products.html" class="rounded-xl bg-bazaar-700 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-bazaar-700/20 transition hover:-translate-y-0.5 hover:bg-bazaar-800 hover:shadow-lg" data-i18n="hero.cta_primary">مشاهده محصولات</a>
+        <a href="#steps" class="rounded-xl border border-bazaar-200 px-6 py-3 text-sm font-semibold text-bazaar-800 transition hover:-translate-y-0.5 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5" data-i18n="hero.cta_secondary">درخواست تعمیر</a>
       </div>
     </div>
 
     <div class="fade-up-delay-1">
       <!-- VIDEO PLACEHOLDER — replace this <div> with a <video> or <iframe> embed -->
-      <div class="relative aspect-video w-full overflow-hidden rounded-3xl border border-khorshid-200/70 bg-khorshid-900 shadow-xl shadow-khorshid-900/10 dark:border-white/10">
-        <div id="hero-video-slot" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-khorshid-200">
+      <div class="relative aspect-video w-full overflow-hidden rounded-3xl border border-bazaar-200/70 bg-bazaar-900 shadow-xl shadow-bazaar-900/10 dark:border-white/10">
+        <div id="hero-video-slot" class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-bazaar-200">
           <div class="grid h-14 w-14 place-items-center rounded-full bg-white/10 backdrop-blur">
-            <svg viewBox="0 0 24 24" class="h-6 w-6 translate-x-[1px] text-sun-400" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg viewBox="0 0 24 24" class="h-6 w-6 translate-x-[1px] text-brass-400" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </div>
-          <p class="text-xs text-khorshid-300" data-i18n="hero.video_caption">نگاهی به کارگاه و تیم فنی خورشید</p>
+          <p class="text-xs text-bazaar-300" data-i18n="hero.video_caption">نگاهی به کارگاه و تیم فنی بازاریو</p>
         </div>
         <!--
           To use the actual video, replace the div#hero-video-slot above with, e.g.:
@@ -157,98 +163,129 @@
 </section>
 
 <!-- ============ TRUST STATS ============ -->
-<section class="border-b border-khorshid-100 bg-white dark:border-white/5 dark:bg-khorshid-900/40">
-  <div class="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-10 sm:grid-cols-4">
-    <div class="text-center">
-      <p class="font-mono text-2xl font-bold text-khorshid-700 dark:text-khorshid-300">۱۵+</p>
-      <p class="mt-1 text-xs text-khorshid-600 dark:text-khorshid-400" data-i18n="trust.years_label">سال تجربه در توزیع و تعمیر</p>
+<section class="border-b border-bazaar-100 bg-white dark:border-white/5 dark:bg-bazaar-900/40">
+  <div class="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-5 py-10 sm:grid-cols-4" data-reveal-group>
+    <div class="text-center" data-reveal>
+      <p class="font-mono text-3xl font-bold text-bazaar-700 dark:text-bazaar-300">۱۵+</p>
+      <p class="mt-1 text-xs text-bazaar-600 dark:text-bazaar-400" data-i18n="trust.years_label">سال تجربه در توزیع و تعمیر</p>
     </div>
-    <div class="text-center">
-      <p class="font-mono text-2xl font-bold text-khorshid-700 dark:text-khorshid-300">۳۲</p>
-      <p class="mt-1 text-xs text-khorshid-600 dark:text-khorshid-400" data-i18n="trust.branches_label">نمایندگی و مرکز خدمات</p>
+    <div class="text-center" data-reveal>
+      <p class="font-mono text-3xl font-bold text-bazaar-700 dark:text-bazaar-300">۳۲</p>
+      <p class="mt-1 text-xs text-bazaar-600 dark:text-bazaar-400" data-i18n="trust.branches_label">نمایندگی و مرکز خدمات</p>
     </div>
-    <div class="text-center">
-      <p class="font-mono text-2xl font-bold text-khorshid-700 dark:text-khorshid-300">۴۰,۰۰۰+</p>
-      <p class="mt-1 text-xs text-khorshid-600 dark:text-khorshid-400" data-i18n="trust.repairs_label">دستگاه تعمیر و بازرسی‌شده</p>
+    <div class="text-center" data-reveal>
+      <p class="font-mono text-3xl font-bold text-bazaar-700 dark:text-bazaar-300">۴۰,۰۰۰+</p>
+      <p class="mt-1 text-xs text-bazaar-600 dark:text-bazaar-400" data-i18n="trust.repairs_label">دستگاه تعمیر و بازرسی‌شده</p>
     </div>
-    <div class="text-center">
-      <p class="font-mono text-2xl font-bold text-khorshid-700 dark:text-khorshid-300">۱۸</p>
-      <p class="mt-1 text-xs text-khorshid-600 dark:text-khorshid-400" data-i18n="trust.warranty_label">گارانتی رسمی روی هر تعمیر</p>
+    <div class="text-center" data-reveal>
+      <p class="font-mono text-3xl font-bold text-bazaar-700 dark:text-bazaar-300">۱۸</p>
+      <p class="mt-1 text-xs text-bazaar-600 dark:text-bazaar-400" data-i18n="trust.warranty_label">گارانتی رسمی روی هر تعمیر</p>
     </div>
   </div>
 </section>
 
-<!-- signature divider: sunrise arc -->
+<!-- signature divider: brass arc -->
 <div class="relative h-10 overflow-hidden">
-  <svg class="absolute -top-8 left-1/2 h-24 w-[140%] -translate-x-1/2 text-sun-500/25 dark:text-sun-500/15" viewBox="0 0 800 100" preserveAspectRatio="none">
+  <svg class="absolute -top-8 left-1/2 h-24 w-[140%] -translate-x-1/2 text-brass-500/25 dark:text-brass-500/15" viewBox="0 0 800 100" preserveAspectRatio="none">
     <path d="M0,100 Q400,-40 800,100" fill="none" stroke="currentColor" stroke-width="2"/>
   </svg>
 </div>
 
 <!-- ============ SERVICE STEPS (real sequence -> numbering is justified) ============ -->
 <section id="steps" class="mx-auto max-w-7xl px-5 py-16">
-  <div class="max-w-xl">
-    <h2 class="font-display text-2xl font-bold text-khorshid-950 dark:text-white" data-i18n="steps.title">مسیر خدمات، شفاف و قابل پیگیری</h2>
-    <p class="mt-3 text-sm leading-7 text-khorshid-600 dark:text-khorshid-400" data-i18n="steps.subtitle">از سفارش تا نصب، هر مرحله را می‌بینید و می‌دانید دستگاه‌تان کجاست.</p>
+  <div class="max-w-xl" data-reveal>
+    <h2 class="font-display text-3xl font-bold text-bazaar-950 dark:text-white" data-i18n="steps.title">مسیر خدمات، شفاف و قابل پیگیری</h2>
+    <p class="mt-3 text-sm leading-7 text-bazaar-600 dark:text-bazaar-400" data-i18n="steps.subtitle">از سفارش تا نصب، هر مرحله را می‌بینید و می‌دانید دستگاه‌تان کجاست.</p>
   </div>
 
-  <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-    <li class="relative rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <span class="font-mono text-sm font-semibold text-sun-500">01</span>
-      <h3 class="mt-3 font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="steps.s1_title">ثبت سفارش یا درخواست تعمیر</h3>
-      <p class="mt-2 text-sm leading-6 text-khorshid-600 dark:text-khorshid-400" data-i18n="steps.s1_desc">محصول را انتخاب کنید یا دستگاه معیوب خود را برای بازدید ثبت کنید.</p>
+  <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4" data-reveal-group>
+    <li class="relative rounded-2xl border border-bazaar-100 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg dark:border-white/5 dark:bg-bazaar-900/40" data-reveal>
+      <span class="font-mono text-sm font-semibold text-brass-500">01</span>
+      <h3 class="mt-3 font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="steps.s1_title">ثبت سفارش یا درخواست تعمیر</h3>
+      <p class="mt-2 text-sm leading-6 text-bazaar-600 dark:text-bazaar-400" data-i18n="steps.s1_desc">محصول را انتخاب کنید یا دستگاه معیوب خود را برای بازدید ثبت کنید.</p>
     </li>
-    <li class="relative rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <span class="font-mono text-sm font-semibold text-sun-500">02</span>
-      <h3 class="mt-3 font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="steps.s2_title">زمان‌بندی و بررسی فنی</h3>
-      <p class="mt-2 text-sm leading-6 text-khorshid-600 dark:text-khorshid-400" data-i18n="steps.s2_desc">کارشناس خورشید زمان مناسب را هماهنگ و دستگاه را بررسی می‌کند.</p>
+    <li class="relative rounded-2xl border border-bazaar-100 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg dark:border-white/5 dark:bg-bazaar-900/40" data-reveal>
+      <span class="font-mono text-sm font-semibold text-brass-500">02</span>
+      <h3 class="mt-3 font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="steps.s2_title">زمان‌بندی و بررسی فنی</h3>
+      <p class="mt-2 text-sm leading-6 text-bazaar-600 dark:text-bazaar-400" data-i18n="steps.s2_desc">کارشناس بازاریو زمان مناسب را هماهنگ و دستگاه را بررسی می‌کند.</p>
     </li>
-    <li class="relative rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <span class="font-mono text-sm font-semibold text-sun-500">03</span>
-      <h3 class="mt-3 font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="steps.s3_title">ارسال یا مراجعه‌ی تکنسین</h3>
-      <p class="mt-2 text-sm leading-6 text-khorshid-600 dark:text-khorshid-400" data-i18n="steps.s3_desc">محصول درب منزل تحویل داده می‌شود یا تکنسین برای تعمیر مراجعه می‌کند.</p>
+    <li class="relative rounded-2xl border border-bazaar-100 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg dark:border-white/5 dark:bg-bazaar-900/40" data-reveal>
+      <span class="font-mono text-sm font-semibold text-brass-500">03</span>
+      <h3 class="mt-3 font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="steps.s3_title">ارسال یا مراجعه‌ی تکنسین</h3>
+      <p class="mt-2 text-sm leading-6 text-bazaar-600 dark:text-bazaar-400" data-i18n="steps.s3_desc">محصول درب منزل تحویل داده می‌شود یا تکنسین برای تعمیر مراجعه می‌کند.</p>
     </li>
-    <li class="relative rounded-2xl border border-khorshid-100 bg-white p-6 dark:border-white/5 dark:bg-khorshid-900/40">
-      <span class="font-mono text-sm font-semibold text-sun-500">04</span>
-      <h3 class="mt-3 font-display text-base font-semibold text-khorshid-900 dark:text-white" data-i18n="steps.s4_title">گارانتی و پشتیبانی</h3>
-      <p class="mt-2 text-sm leading-6 text-khorshid-600 dark:text-khorshid-400" data-i18n="steps.s4_desc">هر خدمت با گارانتی رسمی و پشتیبانی پس از تحویل همراه است.</p>
+    <li class="relative rounded-2xl border border-bazaar-100 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg dark:border-white/5 dark:bg-bazaar-900/40" data-reveal>
+      <span class="font-mono text-sm font-semibold text-brass-500">04</span>
+      <h3 class="mt-3 font-display text-base font-semibold text-bazaar-900 dark:text-white" data-i18n="steps.s4_title">گارانتی و پشتیبانی</h3>
+      <p class="mt-2 text-sm leading-6 text-bazaar-600 dark:text-bazaar-400" data-i18n="steps.s4_desc">هر خدمت با گارانتی رسمی و پشتیبانی پس از تحویل همراه است.</p>
     </li>
   </ol>
 </section>
 
 <!-- ============ FOOTER ============ -->
-<footer class="border-t border-khorshid-100 bg-white dark:border-white/5 dark:bg-khorshid-900/40">
+<footer class="border-t border-bazaar-100 bg-white dark:border-white/5 dark:bg-bazaar-900/40">
   <div class="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-3">
     <div>
-      <span class="font-display text-lg font-extrabold text-khorshid-900 dark:text-white" data-i18n="brand">خورشید</span>
-      <p class="mt-3 max-w-xs text-sm leading-7 text-khorshid-600 dark:text-khorshid-400" data-i18n="footer.about">خورشید از سال ۱۳۸۸ در کنار خانواده‌های ایرانی، لوازم خانگی با کیفیت را توزیع و تعمیر می‌کند.</p>
+      <span class="font-display text-lg font-extrabold text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
+      <p class="mt-3 max-w-xs text-sm leading-7 text-bazaar-600 dark:text-bazaar-400" data-i18n="footer.about">بازاریو از سال ۱۳۸۸ در کنار خانواده‌های ایرانی، لوازم خانگی با کیفیت را توزیع و تعمیر می‌کند.</p>
     </div>
     <div>
-      <h4 class="text-sm font-semibold text-khorshid-900 dark:text-white" data-i18n="footer.quick_links">دسترسی سریع</h4>
-      <div class="mt-3 flex flex-col gap-2 text-sm text-khorshid-600 dark:text-khorshid-400">
+      <h4 class="text-sm font-semibold text-bazaar-900 dark:text-white" data-i18n="footer.quick_links">دسترسی سریع</h4>
+      <div class="mt-3 flex flex-col gap-2 text-sm text-bazaar-600 dark:text-bazaar-400">
         <a href="products.html" data-i18n="nav.products">محصولات</a>
         <a href="login.html" data-i18n="nav.login">ورود</a>
         <a href="signup.html" data-i18n="nav.signup">ثبت‌نام</a>
       </div>
     </div>
     <div>
-      <h4 class="text-sm font-semibold text-khorshid-900 dark:text-white" data-i18n="footer.contact">تماس با ما</h4>
-      <div class="mt-3 flex flex-col gap-2 font-mono text-sm text-khorshid-600 dark:text-khorshid-400">
+      <h4 class="text-sm font-semibold text-bazaar-900 dark:text-white" data-i18n="footer.contact">تماس با ما</h4>
+      <div class="mt-3 flex flex-col gap-2 font-mono text-sm text-bazaar-600 dark:text-bazaar-400">
         <span data-i18n="footer.phone">۰۲۱-۹۱۰۰۰۰۰۰</span>
-        <span class="font-body" data-i18n="footer.address">تهران، خیابان ولیعصر، ساختمان خورشید</span>
+        <span class="font-body" data-i18n="footer.address">تهران، خیابان ولیعصر، ساختمان بازاریو</span>
       </div>
     </div>
   </div>
-  <div class="border-t border-khorshid-100 px-5 py-5 text-center text-xs text-khorshid-500 dark:border-white/5 dark:text-khorshid-500">
-    <span data-i18n="footer.rights">تمامی حقوق برای شرکت خورشید محفوظ است.</span>
+  <div class="border-t border-bazaar-100 px-5 py-5 text-center text-xs text-bazaar-500 dark:border-white/5 dark:text-bazaar-500">
+    <span data-i18n="footer.rights">تمامی حقوق برای شرکت بازاریو محفوظ است.</span>
   </div>
 </footer>
 
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/theme.js"></script>
+<script src="assets/js/scroll-reveal.js"></script>
 <script src="assets/js/api.js"></script>
 <script src="assets/js/cart.js"></script>
 <script src="assets/js/cart-drawer.js"></script>
 <script src="assets/js/nav.js"></script>
+<!-- ============ MOBILE BOTTOM NAV ============ -->
+<nav data-bottom-nav class="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-bazaar-100 bg-white/95 backdrop-blur md:hidden dark:border-white/10 dark:bg-bazaar-950/95" style="padding-bottom: env(safe-area-inset-bottom)">
+  <a href="index.html" data-nav-page="home" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v9a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1v-9"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.home">خانه</span>
+  </a>
+  <a href="products.html" data-nav-page="products" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.products">محصولات</span>
+  </a>
+  <a href="payment.html" data-nav-page="cart" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <span class="relative">
+      <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l-1 12a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span data-cart-count class="hidden absolute -top-1.5 -end-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[9px] font-bold text-bazaar-950">0</span>
+    </span>
+    <span class="text-[10px] font-medium" data-i18n="nav.cart">سبد خرید</span>
+  </a>
+  <a href="orders.html" data-nav-page="orders" class="flex flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l3 3v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M14 3v3a1 1 0 0 0 1 1h3"/><path d="M8 12h8M8 16h5"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.my_orders">سفارش‌ها</span>
+  </a>
+  <a href="login.html" data-auth-guest data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.login">ورود</span>
+  </a>
+  <a href="account.html" data-auth-user data-auth-flex="flex" data-nav-page="account" class="hidden flex-1 flex-col items-center justify-center gap-1 py-2.5 text-bazaar-500 dark:text-bazaar-400">
+    <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>
+    <span class="text-[10px] font-medium" data-i18n="nav.account">حساب من</span>
+  </a>
+</nav>
 </body>
 </html>

@@ -26,7 +26,7 @@
       if (btn.dataset.wired) return;
       btn.dataset.wired = "1";
       btn.addEventListener("click", async () => {
-        await KhorshidAPI.post("/api/auth/logout");
+        await BazaarAPI.post("/api/auth/logout");
         window.location.reload();
       });
     });
@@ -34,16 +34,19 @@
 
   async function syncAuthState() {
     try {
-      const res = await KhorshidAPI.get("/api/auth/me");
+      const res = await BazaarAPI.get("/api/auth/me");
       const loggedOutEls = document.querySelectorAll("[data-auth-guest]");
       const loggedInEls = document.querySelectorAll("[data-auth-user]");
       const adminEls = document.querySelectorAll("[data-admin-only]");
 
       if (res.user) {
-        loggedOutEls.forEach((el) => el.classList.add("hidden"));
+        loggedOutEls.forEach((el) => {
+          el.classList.add("hidden");
+          if (el.dataset.authFlex) el.classList.remove(el.dataset.authFlex);
+        });
         loggedInEls.forEach((el) => {
           el.classList.remove("hidden");
-          if (el.tagName === "DIV") el.classList.add("flex"); // the avatar+name wrapper needs flex layout
+          if (el.dataset.authFlex) el.classList.add(el.dataset.authFlex); // re-apply flex layout that "hidden" overrides
         });
         document.querySelectorAll("[data-user-name]").forEach((el) => (el.textContent = res.user.name));
 
@@ -63,10 +66,13 @@
       } else {
         // definitely logged out — make sure we're not stuck showing a
         // stale "logged in" nav from a bfcache restore or an old session
-        loggedOutEls.forEach((el) => el.classList.remove("hidden"));
+        loggedOutEls.forEach((el) => {
+          el.classList.remove("hidden");
+          if (el.dataset.authFlex) el.classList.add(el.dataset.authFlex);
+        });
         loggedInEls.forEach((el) => {
           el.classList.add("hidden");
-          el.classList.remove("flex");
+          if (el.dataset.authFlex) el.classList.remove(el.dataset.authFlex);
         });
         adminEls.forEach((el) => el.classList.add("hidden"));
       }
@@ -75,9 +81,34 @@
     }
   }
 
+  function setupBottomNavActiveState() {
+    const bar = document.querySelector("[data-bottom-nav]");
+    if (!bar) return;
+    const file = (location.pathname.split("/").pop() || "index.html").toLowerCase();
+    const sectionByFile = {
+      "index.html": "home",
+      "products.html": "products",
+      "product.html": "products",
+      "payment.html": "cart",
+      "orders.html": "orders",
+      "account.html": "account",
+      "login.html": "account",
+      "signup.html": "account",
+    };
+    const activeSection = sectionByFile[file];
+    bar.querySelectorAll("[data-nav-page]").forEach((link) => {
+      const isActive = link.getAttribute("data-nav-page") === activeSection;
+      link.classList.toggle("text-bazaar-700", isActive);
+      link.classList.toggle("dark:text-brass-400", isActive);
+      link.classList.toggle("text-bazaar-500", !isActive);
+      link.classList.toggle("dark:text-bazaar-400", !isActive);
+    });
+  }
+
   function init() {
     setupMobileMenu();
     setupLogout();
+    setupBottomNavActiveState();
     syncAuthState();
   }
 
@@ -86,6 +117,7 @@
   window.addEventListener("pageshow", () => {
     setupMobileMenu();
     setupLogout();
+    setupBottomNavActiveState();
     syncAuthState();
   });
 })();

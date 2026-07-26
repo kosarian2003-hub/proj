@@ -1,5 +1,5 @@
 {
-  "brand": "Khorshid",
+  "brand": "Bazario",
   "brand_sub": "Home Appliance Distribution & Repair",
   "nav": {
     "home": "Home",
@@ -16,10 +16,10 @@
   "hero": {
     "eyebrow": "15+ years with Iranian households",
     "title": "Appliances we know, repairs we stand behind",
-    "subtitle": "Khorshid is an official home-appliance distributor and specialist repair center with real warranties and doorstep service.",
+    "subtitle": "Bazario is an official home-appliance distributor and specialist repair center with real warranties and doorstep service.",
     "cta_primary": "Browse Products",
     "cta_secondary": "Request a Repair",
-    "video_caption": "A look inside Khorshid's workshop and service team"
+    "video_caption": "A look inside Bazario's workshop and service team"
   },
   "trust": {
     "years": "years",
@@ -37,14 +37,14 @@
     "s1_title": "Place an order or repair request",
     "s1_desc": "Choose a product, or register your faulty appliance for inspection.",
     "s2_title": "Scheduling & technical review",
-    "s2_desc": "A Khorshid specialist coordinates a time and reviews the device.",
+    "s2_desc": "A Bazario specialist coordinates a time and reviews the device.",
     "s3_title": "Delivery or technician visit",
     "s3_desc": "The product is delivered to your door, or a technician comes to repair it.",
     "s4_title": "Warranty & support",
     "s4_desc": "Every service comes with an official warranty and after-delivery support."
   },
   "products_page": {
-    "title": "Khorshid Products",
+    "title": "Bazario Products",
     "subtitle": "Prices and stock are pulled live from the inventory system.",
     "live_badge": "Live update every 10 seconds",
     "in_stock": "In stock",
@@ -134,6 +134,8 @@
     "coupon_apply": "Apply",
     "coupon_applied": "Coupon applied ({percent}% off).",
     "coupon_invalid": "Invalid coupon code.",
+    "coupon_used_up": "This coupon has reached its usage limit.",
+    "coupon_already_used": "You've already used this coupon.",
     "shipping": "Shipping",
     "free_shipping": "Free (your first order)",
     "total": "Total to Pay",
@@ -235,12 +237,12 @@
     "status_cancelled": "Cancelled"
   },
   "footer": {
-    "about": "Since 2009, Khorshid has distributed and repaired quality home appliances for Iranian families.",
+    "about": "Since 2009, Bazario has distributed and repaired quality home appliances for Iranian families.",
     "quick_links": "Quick Links",
     "contact": "Contact Us",
     "phone": "021-91000000",
-    "address": "Tehran, Valiasr St., Khorshid Building",
-    "rights": "All rights reserved to Khorshid Co."
+    "address": "Tehran, Valiasr St., Bazario Building",
+    "rights": "All rights reserved to Bazario Co."
   },
   "common": {
     "language": "فارسی",

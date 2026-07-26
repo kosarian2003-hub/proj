@@ -16,9 +16,9 @@
     const summaryBox = document.getElementById("cart-summary");
     if (!list) return;
 
-    const items = KhorshidCart.readCart();
-    const lang = window.KhorshidI18n.currentLang();
-    const t = window.KhorshidI18n.t;
+    const items = BazaarCart.readCart();
+    const lang = window.BazaarI18n.currentLang();
+    const t = window.BazaarI18n.t;
 
     if (!items.length) {
       list.innerHTML = "";
@@ -33,18 +33,18 @@
       .map(
         (i) => `
       <div class="flex items-center justify-between gap-3 border-b border-slate-100 py-3 dark:border-slate-700/60">
-        <div class="flex items-center gap-3">
+        <div class="flex min-w-0 flex-1 items-center gap-3">
           ${
             i.image
               ? `<img src="${i.image}" alt="${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}" loading="lazy" class="h-12 w-12 shrink-0 rounded-lg object-cover" onerror="this.remove()" />`
               : ""
           }
-          <div>
-            <p class="text-sm font-medium text-slate-800 dark:text-slate-100">${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}</p>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-slate-800 dark:text-slate-100">${lang === "fa" ? i.name_fa : i.name_en || i.name_fa}</p>
             <p class="mt-1 font-mono text-xs text-slate-500 dark:text-slate-400">${formatToman(i.price)} ${t("products_page.toman")}</p>
           </div>
         </div>
-        <div class="flex flex-col items-end gap-1">
+        <div class="flex shrink-0 flex-col items-end gap-1">
           <div class="flex items-center gap-2">
             <input type="number" min="1" max="${i.stock ?? ""}" value="${i.qty}" data-qty-input data-id="${i.id}"
               class="w-14 rounded-lg border border-slate-200 bg-transparent px-2 py-1 text-center text-sm dark:border-slate-600" />
@@ -58,7 +58,7 @@
     list.querySelectorAll("[data-qty-input]").forEach((input) => {
       input.addEventListener("change", () => {
         const requested = Number(input.value);
-        const applied = KhorshidCart.setQty(Number(input.getAttribute("data-id")), requested);
+        const applied = BazaarCart.setQty(Number(input.getAttribute("data-id")), requested);
         if (applied !== null && applied < requested) {
           alert(t("cart_page.max_stock_reached"));
         }
@@ -67,7 +67,7 @@
     });
     list.querySelectorAll("[data-remove-id]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        KhorshidCart.removeItem(Number(btn.getAttribute("data-remove-id")));
+        BazaarCart.removeItem(Number(btn.getAttribute("data-remove-id")));
         renderAll();
       });
     });
@@ -80,9 +80,9 @@
     const discountRow = document.getElementById("discount-row");
     const discountEl = document.getElementById("discount-amount");
     if (!subtotalEl) return;
-    const t = window.KhorshidI18n.t;
+    const t = window.BazaarI18n.t;
 
-    const subtotal = KhorshidCart.totalPrice();
+    const subtotal = BazaarCart.totalPrice();
     subtotalEl.textContent = `${formatToman(subtotal)} ${t("products_page.toman")}`;
 
     const discount = appliedCoupon ? Math.round((subtotal * appliedCoupon.discount_percent) / 100) : 0;
@@ -106,7 +106,7 @@
   }
 
   async function requireLoginOrRedirect() {
-    const res = await KhorshidAPI.get("/api/auth/me");
+    const res = await BazaarAPI.get("/api/auth/me");
     if (!res.user) {
       window.location.href = "login.html?redirect=payment.html";
       return null;
@@ -126,25 +126,25 @@
     if (form.customer_phone && !form.customer_phone.value && user.phone) {
       form.customer_phone.value = user.phone;
     }
-    if (user.address && window.KhorshidMap) {
-      window.KhorshidMap.setLocation(user.address.lat, user.address.lng);
+    if (user.address && window.BazaarMap) {
+      window.BazaarMap.setLocation(user.address.lat, user.address.lng);
     }
   }
 
   async function handlePay(e) {
     e.preventDefault();
     const form = e.target;
-    const t = window.KhorshidI18n.t;
-    const items = KhorshidCart.readCart();
+    const t = window.BazaarI18n.t;
+    const items = BazaarCart.readCart();
     if (!items.length) return;
 
-    const loc = window.KhorshidMap ? window.KhorshidMap.getLocation() : null;
+    const loc = window.BazaarMap ? window.BazaarMap.getLocation() : null;
     if (!loc) {
       alert(t("cart_page.select_location_first"));
       return;
     }
 
-    const slot = window.KhorshidDeliverySlot ? window.KhorshidDeliverySlot.getSlot() : null;
+    const slot = window.BazaarDeliverySlot ? window.BazaarDeliverySlot.getSlot() : null;
     if (!slot) {
       const msg = document.getElementById("delivery-time-message");
       if (msg) {
@@ -166,7 +166,7 @@
     payBtn.disabled = true;
     payBtn.textContent = t("cart_page.processing");
 
-    const orderRes = await KhorshidAPI.post("/api/orders", {
+    const orderRes = await BazaarAPI.post("/api/orders", {
       items: items.map((i) => ({ id: i.id, name: i.name_fa, price: i.price, qty: i.qty })),
       delivery: {
         lat: loc.lat,
@@ -197,8 +197,8 @@
       }
       if (orderRes.error === "blocked_delivery_date") {
         alert(t("cart_page.delivery_date_unavailable"));
-        if (window.KhorshidDeliverySlot && window.KhorshidDeliverySlot.refresh) {
-          window.KhorshidDeliverySlot.refresh();
+        if (window.BazaarDeliverySlot && window.BazaarDeliverySlot.refresh) {
+          window.BazaarDeliverySlot.refresh();
         }
         return;
       }
@@ -207,13 +207,19 @@
         form.customer_phone.focus();
         return;
       }
+      if (orderRes.error === "coupon_used_up" || orderRes.error === "coupon_already_used") {
+        alert(orderRes.error === "coupon_used_up" ? t("cart_page.coupon_used_up") : t("cart_page.coupon_already_used"));
+        appliedCoupon = null;
+        renderTotals();
+        return;
+      }
       alert(orderRes.error || "order_failed");
       return;
     }
 
-    const payRes = await KhorshidAPI.post(`/api/orders/${orderRes.order.id}/pay`);
+    const payRes = await BazaarAPI.post(`/api/orders/${orderRes.order.id}/pay`);
     if (payRes.ok) {
-      KhorshidCart.clearCart();
+      BazaarCart.clearCart();
       document.getElementById("checkout-form-wrap").classList.add("hidden");
       const successBox = document.getElementById("payment-success");
       successBox.classList.remove("hidden");
@@ -231,12 +237,12 @@
     const input = document.getElementById("coupon-input");
     const message = document.getElementById("coupon-message");
     if (!applyBtn) return;
-    const t = window.KhorshidI18n.t;
+    const t = window.BazaarI18n.t;
 
     applyBtn.addEventListener("click", async () => {
       const code = input.value.trim();
       if (!code) return;
-      const res = await KhorshidAPI.post("/api/coupons/validate", { code });
+      const res = await BazaarAPI.post("/api/coupons/validate", { code });
       message.classList.remove("hidden");
       if (res.ok) {
         appliedCoupon = { code: res.code, discount_percent: res.discount_percent };
@@ -244,7 +250,13 @@
         message.className = "mt-2 text-xs text-emerald-600 dark:text-emerald-400";
       } else {
         appliedCoupon = null;
-        message.textContent = t("cart_page.coupon_invalid");
+        if (res.error === "coupon_used_up") {
+          message.textContent = t("cart_page.coupon_used_up");
+        } else if (res.error === "coupon_already_used") {
+          message.textContent = t("cart_page.coupon_already_used");
+        } else {
+          message.textContent = t("cart_page.coupon_invalid");
+        }
         message.className = "mt-2 text-xs text-rose-600 dark:text-rose-400";
       }
       renderTotals();
@@ -262,7 +274,7 @@
     if (form) form.addEventListener("submit", handlePay);
   });
 
-  document.addEventListener("khorshid:translated", () => {
+  document.addEventListener("bazaar:translated", () => {
     if (document.getElementById("cart-lines")) renderAll();
   });
 })();

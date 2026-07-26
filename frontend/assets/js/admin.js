@@ -15,7 +15,7 @@
 
   function statusSelect(current, options, labels, onChange) {
     const select = document.createElement("select");
-    select.className = "rounded-lg border border-khorshid-200 bg-white px-2 py-1 text-xs text-khorshid-900 dark:border-white/10 dark:bg-khorshid-800 dark:text-khorshid-100";
+    select.className = "rounded-lg border border-bazaar-200 bg-white px-2 py-1 text-xs text-bazaar-900 dark:border-white/10 dark:bg-bazaar-800 dark:text-bazaar-100";
     options.forEach((opt) => {
       const o = document.createElement("option");
       o.value = opt;
@@ -29,14 +29,14 @@
 
   function summaryCard(label, value, tone) {
     return `
-      <div class="rounded-2xl border border-khorshid-100 bg-white p-4 dark:border-white/5 dark:bg-khorshid-900/40">
-        <p class="text-xs text-khorshid-500 dark:text-khorshid-400">${label}</p>
-        <p class="mt-1 font-mono text-lg font-bold ${tone || "text-khorshid-950 dark:text-white"}">${value}</p>
+      <div class="rounded-2xl border border-bazaar-100 bg-white p-4 dark:border-white/5 dark:bg-bazaar-900/40">
+        <p class="text-xs text-bazaar-500 dark:text-bazaar-400">${label}</p>
+        <p class="mt-1 font-mono text-lg font-bold ${tone || "text-bazaar-950 dark:text-white"}">${value}</p>
       </div>`;
   }
 
   async function loadSummary() {
-    const res = await KhorshidAPI.get("/api/accounting/summary");
+    const res = await BazaarAPI.get("/api/accounting/summary");
     if (!res.ok) return;
     const cards = [
       summaryCard("درآمد (تومان)", formatToman(res.revenue_toman)),
@@ -52,7 +52,7 @@
   }
 
   async function loadOrders() {
-    const res = await KhorshidAPI.get("/api/admin/orders");
+    const res = await BazaarAPI.get("/api/admin/orders");
     if (!res.ok) return;
     const tbody = document.getElementById("orders-tbody");
     tbody.innerHTML = "";
@@ -72,16 +72,16 @@
         <td class="px-4 py-3">${customerName}</td>
         <td class="px-4 py-3 font-mono text-xs">${phone}</td>
         <td class="px-4 py-3 font-mono text-xs">${email}</td>
-        <td class="px-4 py-3 text-xs text-khorshid-600 dark:text-khorshid-400">${itemsText}</td>
-        <td class="px-4 py-3 max-w-[16rem] text-xs text-khorshid-600 dark:text-khorshid-400">${address}${o.delivery && o.delivery.note ? `<br><span class="text-khorshid-400">${o.delivery.note}</span>` : ""}</td>
-        <td class="px-4 py-3 whitespace-nowrap text-xs text-khorshid-600 dark:text-khorshid-400">${slotText}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-600 dark:text-bazaar-400">${itemsText}</td>
+        <td class="px-4 py-3 max-w-[16rem] text-xs text-bazaar-600 dark:text-bazaar-400">${address}${o.delivery && o.delivery.note ? `<br><span class="text-bazaar-400">${o.delivery.note}</span>` : ""}</td>
+        <td class="px-4 py-3 whitespace-nowrap text-xs text-bazaar-600 dark:text-bazaar-400">${slotText}</td>
         <td class="px-4 py-3 font-mono">${formatToman(o.total)}</td>
-        <td class="px-4 py-3 text-xs text-khorshid-500">${new Date(o.created_at).toLocaleDateString("fa-IR")}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-500">${new Date(o.created_at).toLocaleDateString("fa-IR")}</td>
         <td class="px-4 py-3"></td>`;
       const statusCell = tr.querySelector("td:last-child");
       statusCell.appendChild(
         statusSelect(o.status, ORDER_STATUSES, ORDER_STATUS_LABELS, async (newStatus) => {
-          await KhorshidAPI.post(`/api/admin/orders/${o.id}/status`, { status: newStatus });
+          await BazaarAPI.post(`/api/admin/orders/${o.id}/status`, { status: newStatus });
           loadSummary();
         })
       );
@@ -90,7 +90,7 @@
   }
 
   async function loadRepairs() {
-    const res = await KhorshidAPI.get("/api/admin/repairs");
+    const res = await BazaarAPI.get("/api/admin/repairs");
     if (!res.ok) return;
     const tbody = document.getElementById("repairs-tbody");
     tbody.innerHTML = "";
@@ -100,12 +100,12 @@
         <td class="px-4 py-3">${r.name}</td>
         <td class="px-4 py-3 font-mono text-xs">${r.phone}</td>
         <td class="px-4 py-3">${r.device_type}</td>
-        <td class="px-4 py-3 text-xs text-khorshid-600 dark:text-khorshid-400">${r.issue}</td>
-        <td class="px-4 py-3 text-xs text-khorshid-500">${new Date(r.created_at).toLocaleDateString("fa-IR")}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-600 dark:text-bazaar-400">${r.issue}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-500">${new Date(r.created_at).toLocaleDateString("fa-IR")}</td>
         <td class="px-4 py-3"></td>`;
       tr.querySelector("td:last-child").appendChild(
         statusSelect(r.status, REPAIR_STATUSES, REPAIR_STATUS_LABELS, async (newStatus) => {
-          await KhorshidAPI.post(`/api/admin/repairs/${r.id}/status`, { status: newStatus });
+          await BazaarAPI.post(`/api/admin/repairs/${r.id}/status`, { status: newStatus });
           loadSummary();
         })
       );
@@ -114,7 +114,7 @@
   }
 
   async function loadCoupons() {
-    const res = await KhorshidAPI.get("/api/admin/coupons");
+    const res = await BazaarAPI.get("/api/admin/coupons");
     if (!res.ok) return;
     const tbody = document.getElementById("coupons-tbody");
     tbody.innerHTML = res.coupons
@@ -123,23 +123,95 @@
       <tr>
         <td class="px-4 py-3 font-mono">${c.code}</td>
         <td class="px-4 py-3">%${c.discount_percent}</td>
+        <td class="px-4 py-3 font-mono text-xs">${c.usage_count} ${c.usage_limit ? `/ ${c.usage_limit}` : "(نامحدود)"}</td>
         <td class="px-4 py-3">
-          <span class="rounded-full px-2.5 py-0.5 text-xs ${c.active ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400" : "bg-khorshid-100 text-khorshid-500 dark:bg-white/10"}">
+          <span class="rounded-full px-2.5 py-0.5 text-xs ${c.active ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400" : "bg-bazaar-100 text-bazaar-500 dark:bg-white/10"}">
             ${c.active ? "فعال" : "غیرفعال"}
           </span>
         </td>
-        <td class="px-4 py-3">
-          <button data-toggle-coupon="${c.code}" class="text-xs text-khorshid-600 underline dark:text-khorshid-300">
+        <td class="px-4 py-3 whitespace-nowrap">
+          <button data-toggle-coupon="${c.code}" class="text-xs text-bazaar-600 underline dark:text-bazaar-300">
             ${c.active ? "غیرفعال کن" : "فعال کن"}
           </button>
+          <button data-show-usages="${c.code}" class="ms-3 text-xs text-bazaar-600 underline dark:text-bazaar-300">کاربران</button>
         </td>
       </tr>`
       )
       .join("");
     tbody.querySelectorAll("[data-toggle-coupon]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await KhorshidAPI.post(`/api/admin/coupons/${btn.getAttribute("data-toggle-coupon")}/toggle`);
+        await BazaarAPI.post(`/api/admin/coupons/${btn.getAttribute("data-toggle-coupon")}/toggle`);
         loadCoupons();
+      });
+    });
+    tbody.querySelectorAll("[data-show-usages]").forEach((btn) => {
+      btn.addEventListener("click", () => showCouponUsages(btn.getAttribute("data-show-usages")));
+    });
+  }
+
+  async function showCouponUsages(code) {
+    const dialog = document.getElementById("coupon-usages-dialog");
+    const body = document.getElementById("coupon-usages-body");
+    document.getElementById("coupon-usages-title").textContent = `کاربران استفاده‌کننده از ${code}`;
+    body.innerHTML = `<p class="text-xs text-bazaar-400">در حال بارگذاری...</p>`;
+    dialog.showModal();
+
+    const res = await BazaarAPI.get(`/api/admin/coupons/${code}/usages`);
+    if (!res.ok) {
+      body.innerHTML = `<p class="text-xs text-rose-500">خطا در دریافت اطلاعات.</p>`;
+      return;
+    }
+    if (!res.usages.length) {
+      body.innerHTML = `<p class="text-xs text-bazaar-400">هنوز هیچ کاربری از این کد استفاده نکرده است.</p>`;
+      return;
+    }
+    body.innerHTML = `<ul class="divide-y divide-bazaar-100 dark:divide-white/5">${res.usages
+      .map(
+        (u) => `
+      <li class="py-2.5">
+        <p class="font-medium">${u.name}</p>
+        <p class="font-mono text-xs text-bazaar-500 dark:text-bazaar-400">${u.email} · ${u.phone || "—"}</p>
+        <p class="mt-0.5 text-xs text-bazaar-400">سفارش ${u.order_id} — ${new Date(u.used_at).toLocaleString("fa-IR")}</p>
+      </li>`
+      )
+      .join("")}</ul>`;
+  }
+
+  async function loadUsers() {
+    const res = await BazaarAPI.get("/api/admin/users");
+    if (!res.ok) return;
+    const tbody = document.getElementById("users-tbody");
+    tbody.innerHTML = res.users
+      .map(
+        (u) => `
+      <tr>
+        <td class="px-4 py-3">${u.name}</td>
+        <td class="px-4 py-3 font-mono text-xs">${u.email}</td>
+        <td class="px-4 py-3 font-mono text-xs">${u.phone || "—"}</td>
+        <td class="px-4 py-3">${u.is_admin ? '<span class="rounded-full bg-brass-400/20 px-2.5 py-0.5 text-xs text-bazaar-800 dark:text-brass-400">مدیر</span>' : "کاربر"}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-500">${new Date(u.created_at).toLocaleDateString("fa-IR")}</td>
+        <td class="px-4 py-3">
+          ${u.locked ? '<span class="rounded-full bg-rose-100 px-2.5 py-0.5 text-xs text-rose-700 dark:bg-rose-500/10 dark:text-rose-400">قفل‌شده</span>' : '<span class="rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400">فعال</span>'}
+        </td>
+        <td class="px-4 py-3">
+          <button data-reset-user="${u.id}" class="text-xs text-bazaar-600 underline dark:text-bazaar-300">ریست رمز عبور</button>
+        </td>
+      </tr>`
+      )
+      .join("");
+    if (!res.users.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="px-4 py-6 text-center text-xs text-bazaar-400">کاربری ثبت نشده است.</td></tr>`;
+    }
+    tbody.querySelectorAll("[data-reset-user]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        if (!confirm("رمز عبور این کاربر ریست شود؟")) return;
+        const userId = btn.getAttribute("data-reset-user");
+        const res = await BazaarAPI.post(`/api/admin/users/${userId}/reset-password`, {});
+        if (res.ok) {
+          alert(`رمز عبور جدید (فقط همین یک‌بار نمایش داده می‌شود):\n\n${res.new_password}`);
+        } else {
+          alert(`خطا: ${res.error}`);
+        }
       });
     });
   }
@@ -184,18 +256,18 @@
         "flex shrink-0 flex-col items-center justify-center rounded-2xl border-2 px-3 py-2.5 min-w-[62px] transition-all " +
         (blocked
           ? "border-rose-600 bg-rose-600 text-white shadow-md shadow-rose-600/20"
-          : "border-khorshid-100 bg-white text-khorshid-900 hover:border-khorshid-300 hover:bg-khorshid-50 dark:border-white/10 dark:bg-khorshid-950/30 dark:text-khorshid-100 dark:hover:border-white/20 dark:hover:bg-white/5");
+          : "border-bazaar-100 bg-white text-bazaar-900 hover:border-bazaar-300 hover:bg-bazaar-50 dark:border-white/10 dark:bg-bazaar-950/30 dark:text-bazaar-100 dark:hover:border-white/20 dark:hover:bg-white/5");
       btn.innerHTML = `
-        <span class="text-[10px] font-medium ${blocked ? "text-white/80" : "text-khorshid-500 dark:text-khorshid-400"}">${parts.weekday}</span>
+        <span class="text-[10px] font-medium ${blocked ? "text-white/80" : "text-bazaar-500 dark:text-bazaar-400"}">${parts.weekday}</span>
         <span class="mt-1 text-lg font-extrabold leading-none">${parts.dayNum}</span>
-        <span class="mt-0.5 text-[10px] ${blocked ? "text-white/80" : "text-khorshid-400 dark:text-khorshid-500"}">${parts.month}</span>`;
+        <span class="mt-0.5 text-[10px] ${blocked ? "text-white/80" : "text-bazaar-400 dark:text-bazaar-500"}">${parts.month}</span>`;
       btn.title = blocked ? `غیرفعال — کلیک کنید تا دوباره فعال شود${blockedMap[iso] ? " (" + blockedMap[iso] + ")" : ""}` : "کلیک کنید تا این روز غیرفعال شود";
       btn.addEventListener("click", async () => {
         if (blocked) {
-          await KhorshidAPI.post(`/api/admin/blocked-dates/${iso}/unblock`);
+          await BazaarAPI.post(`/api/admin/blocked-dates/${iso}/unblock`);
         } else {
           const reasonInput = document.getElementById("block-date-reason");
-          await KhorshidAPI.post("/api/admin/blocked-dates", { date: iso, reason: reasonInput ? reasonInput.value.trim() : "" });
+          await BazaarAPI.post("/api/admin/blocked-dates", { date: iso, reason: reasonInput ? reasonInput.value.trim() : "" });
         }
         loadBlockedDates();
       });
@@ -210,9 +282,9 @@
         (d) => `
       <tr>
         <td class="px-4 py-3 font-mono">${d.date}</td>
-        <td class="px-4 py-3 text-xs text-khorshid-600 dark:text-khorshid-400">${d.reason || "—"}</td>
+        <td class="px-4 py-3 text-xs text-bazaar-600 dark:text-bazaar-400">${d.reason || "—"}</td>
         <td class="px-4 py-3">
-          <button data-unblock-date="${d.date}" class="text-xs text-khorshid-600 underline dark:text-khorshid-300">
+          <button data-unblock-date="${d.date}" class="text-xs text-bazaar-600 underline dark:text-bazaar-300">
             فعال کن
           </button>
         </td>
@@ -220,18 +292,18 @@
       )
       .join("");
     if (!blockedList.length) {
-      tbody.innerHTML = `<tr><td colspan="3" class="px-4 py-6 text-center text-xs text-khorshid-400">روزی غیرفعال نشده است.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="3" class="px-4 py-6 text-center text-xs text-bazaar-400">روزی غیرفعال نشده است.</td></tr>`;
     }
     tbody.querySelectorAll("[data-unblock-date]").forEach((btn) => {
       btn.addEventListener("click", async () => {
-        await KhorshidAPI.post(`/api/admin/blocked-dates/${btn.getAttribute("data-unblock-date")}/unblock`);
+        await BazaarAPI.post(`/api/admin/blocked-dates/${btn.getAttribute("data-unblock-date")}/unblock`);
         loadBlockedDates();
       });
     });
   }
 
   async function loadBlockedDates() {
-    const res = await KhorshidAPI.get("/api/admin/blocked-dates");
+    const res = await BazaarAPI.get("/api/admin/blocked-dates");
     if (!res.ok) return;
     renderDeliveryDayPicker(res.dates);
     renderBlockedDatesTable(res.dates);
@@ -241,11 +313,11 @@
     document.querySelectorAll(".admin-tab").forEach((btn) => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".admin-tab").forEach((b) => {
-          b.classList.remove("border-khorshid-700", "text-khorshid-900", "dark:text-white");
-          b.classList.add("border-transparent", "text-khorshid-500");
+          b.classList.remove("border-bazaar-700", "text-bazaar-900", "dark:text-white");
+          b.classList.add("border-transparent", "text-bazaar-500");
         });
-        btn.classList.add("border-khorshid-700", "text-khorshid-900", "dark:text-white");
-        btn.classList.remove("border-transparent", "text-khorshid-500");
+        btn.classList.add("border-bazaar-700", "text-bazaar-900", "dark:text-white");
+        btn.classList.remove("border-transparent", "text-bazaar-500");
 
         const target = btn.getAttribute("data-tab");
         document.querySelectorAll("[data-panel]").forEach((p) => {
@@ -259,9 +331,10 @@
     const form = document.getElementById("coupon-form");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const res = await KhorshidAPI.post("/api/admin/coupons", {
+      const res = await BazaarAPI.post("/api/admin/coupons", {
         code: form.code.value.trim(),
         discount_percent: Number(form.discount_percent.value),
+        usage_limit: form.usage_limit.value.trim() ? Number(form.usage_limit.value) : null,
       });
       if (res.ok) {
         form.reset();
@@ -270,12 +343,22 @@
     });
   }
 
+  function setupCouponUsagesDialog() {
+    const dialog = document.getElementById("coupon-usages-dialog");
+    const closeBtn = document.getElementById("coupon-usages-close");
+    if (!dialog || !closeBtn) return;
+    closeBtn.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) dialog.close(); // click on the backdrop
+    });
+  }
+
   function setupBlockDateForm() {
     const form = document.getElementById("block-date-form");
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const reasonInput = document.getElementById("block-date-reason");
-      const res = await KhorshidAPI.post("/api/admin/blocked-dates", {
+      const res = await BazaarAPI.post("/api/admin/blocked-dates", {
         date: form.date.value,
         reason: reasonInput ? reasonInput.value.trim() : "",
       });
@@ -306,7 +389,7 @@
   document.addEventListener("DOMContentLoaded", async () => {
     if (!document.getElementById("admin-content")) return;
 
-    const me = await KhorshidAPI.get("/api/auth/me");
+    const me = await BazaarAPI.get("/api/auth/me");
     if (!me.user) {
       window.location.href = "login.html?redirect=admin.html";
       return;
@@ -319,6 +402,7 @@
     document.getElementById("admin-content").classList.remove("hidden");
     setupTabs();
     setupCouponForm();
+    setupCouponUsagesDialog();
     setupUploadForm();
     setupBlockDateForm();
     loadSummary();
@@ -326,5 +410,6 @@
     loadRepairs();
     loadCoupons();
     loadBlockedDates();
+    loadUsers();
   });
 })();

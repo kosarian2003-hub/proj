@@ -1,0 +1,87 @@
+/* ============================================================
+   Bazaar — shared scroll & motion polish
+   Included on every page alongside Tailwind. Keep selectors
+   generic (data-attributes / utility classes) so this works
+   the same on index, products, product, etc.
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* hide the native scrollbar — the top progress bar already gives scroll
+   feedback, so the browser's own bar just adds visual clutter */
+html, body {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* old Edge/IE */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;              /* Chrome/Safari/Edge */
+  width: 0;
+  height: 0;
+}
+
+/* ---------- scroll progress bar ---------- */
+#scroll-progress {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 2.5px;
+  z-index: 60;
+  width: 0%;
+  background: linear-gradient(90deg, #3B5942, #AD8A55 65%, #C7A96F);
+  transform-origin: 0 0;
+  transition: width 80ms linear;
+  pointer-events: none;
+}
+
+/* ---------- header elevation on scroll ---------- */
+header.is-elevated {
+  box-shadow: 0 8px 24px -16px rgba(30, 47, 34, 0.35);
+}
+.dark header.is-elevated {
+  box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.55);
+}
+
+/* ---------- generic scroll-reveal ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+}
+[data-reveal].is-visible {
+  animation: khReveal .7s cubic-bezier(.16,.8,.3,1) forwards;
+}
+@keyframes khReveal {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* stagger helper: apply data-reveal-group to a container, children get
+   incremental delay automatically up to 8 items */
+[data-reveal-group] > [data-reveal]:nth-child(1) { animation-delay: 0ms; }
+[data-reveal-group] > [data-reveal]:nth-child(2) { animation-delay: 70ms; }
+[data-reveal-group] > [data-reveal]:nth-child(3) { animation-delay: 140ms; }
+[data-reveal-group] > [data-reveal]:nth-child(4) { animation-delay: 210ms; }
+[data-reveal-group] > [data-reveal]:nth-child(5) { animation-delay: 280ms; }
+[data-reveal-group] > [data-reveal]:nth-child(6) { animation-delay: 350ms; }
+[data-reveal-group] > [data-reveal]:nth-child(7) { animation-delay: 420ms; }
+[data-reveal-group] > [data-reveal]:nth-child(8) { animation-delay: 490ms; }
+
+/* product / result cards fetched by JS: same idea, lighter + faster
+   since lists can be long and shouldn't feel sluggish */
+.card-in {
+  animation: khCardIn .5s cubic-bezier(.16,.8,.3,1) both;
+}
+@keyframes khCardIn {
+  from { opacity: 0; transform: translateY(12px) scale(.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+#product-grid > *:nth-child(n)   { animation-delay: calc(var(--card-i, 0) * 45ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-reveal], [data-reveal].is-visible, .card-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

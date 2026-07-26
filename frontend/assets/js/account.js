@@ -65,7 +65,7 @@
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
       const msgEl = document.getElementById("profile-message");
-      const res = await KhorshidAPI.post("/api/profile/update", {
+      const res = await BazaarAPI.post("/api/profile/update", {
         first_name: form.first_name.value.trim(),
         last_name: form.last_name.value.trim(),
         phone: form.phone.value.trim(),
@@ -85,18 +85,18 @@
     if (!saveBtn) return;
 
     // prefill the saved pin, if there is one
-    if (user.address && window.KhorshidMap) {
-      window.KhorshidMap.setLocation(user.address.lat, user.address.lng);
+    if (user.address && window.BazaarMap) {
+      window.BazaarMap.setLocation(user.address.lat, user.address.lng);
     }
 
     saveBtn.addEventListener("click", async () => {
       const msgEl = document.getElementById("address-message");
-      const loc = window.KhorshidMap ? window.KhorshidMap.getLocation() : null;
+      const loc = window.BazaarMap ? window.BazaarMap.getLocation() : null;
       if (!loc) {
         showMessage(msgEl, t("cart_page.select_location_first"), true);
         return;
       }
-      const res = await KhorshidAPI.post("/api/profile/address", {
+      const res = await BazaarAPI.post("/api/profile/address", {
         lat: loc.lat,
         lng: loc.lng,
         address: loc.address || "",
@@ -124,7 +124,7 @@
         return;
       }
 
-      const res = await KhorshidAPI.post("/api/profile/password", {
+      const res = await BazaarAPI.post("/api/profile/password", {
         current_password: currentPassword,
         new_password: newPassword,
       });
@@ -142,13 +142,13 @@
   document.addEventListener("DOMContentLoaded", async () => {
     if (!document.getElementById("account-content")) return;
 
-    const me = await KhorshidAPI.get("/api/auth/me");
+    const me = await BazaarAPI.get("/api/auth/me");
     if (!me.user) {
       window.location.href = "login.html?redirect=account.html";
       return;
     }
 
-    const t = window.KhorshidI18n.t;
+    const t = window.BazaarI18n.t;
     fillProfileForm(me.user);
     renderAvatar(me.user);
     setupAvatarUpload(t);

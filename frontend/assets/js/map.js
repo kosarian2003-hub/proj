@@ -35,7 +35,7 @@
     const { panel, text: textEl, status } = els();
     if (!panel || !textEl) return;
     panel.classList.remove("hidden");
-    const t = window.KhorshidI18n ? window.KhorshidI18n.t : (k) => k;
+    const t = window.BazaarI18n ? window.BazaarI18n.t : (k) => k;
 
     if (state === "loading") {
       textEl.textContent = t("cart_page.address_loading") || "در حال یافتن نشانی…";
@@ -106,10 +106,10 @@
   function renderSearchResults(results) {
     const { searchResults } = els();
     if (!searchResults) return;
-    const t = window.KhorshidI18n ? window.KhorshidI18n.t : (k) => k;
+    const t = window.BazaarI18n ? window.BazaarI18n.t : (k) => k;
     const isDark = document.documentElement.classList.contains("dark");
-    const textColor = isDark ? "#E4EEF8" : "#0F2A4A"; // khorshid-100 / khorshid-900
-    const mutedColor = isDark ? "#8FBBDE" : "#3E7CB8"; // khorshid-300 / khorshid-500
+    const textColor = isDark ? "#EAE3D2" : "#1E2F22"; // bazaar-100 / bazaar-900
+    const mutedColor = isDark ? "#BFCCB9" : "#7C9382"; // bazaar-300 / bazaar-500
 
     if (!results.length) {
       searchResults.innerHTML = `<li class="px-3.5 py-2.5" style="color:${mutedColor}">${
@@ -122,7 +122,7 @@
     searchResults.innerHTML = results
       .map(
         (r, idx) =>
-          `<li data-result-idx="${idx}" class="cursor-pointer truncate border-b border-khorshid-100 px-3.5 py-2.5 last:border-0 hover:bg-khorshid-100 dark:border-white/5 dark:hover:bg-white/5" style="color:${textColor}">${r.display_name}</li>`
+          `<li data-result-idx="${idx}" class="cursor-pointer truncate border-b border-bazaar-100 px-3.5 py-2.5 last:border-0 hover:bg-bazaar-100 dark:border-white/5 dark:hover:bg-white/5" style="color:${textColor}">${r.display_name}</li>`
       )
       .join("");
     searchResults.classList.remove("hidden");
@@ -149,7 +149,7 @@
       return;
     }
     try {
-      const lang = window.KhorshidI18n ? window.KhorshidI18n.currentLang() : "fa";
+      const lang = window.BazaarI18n ? window.BazaarI18n.currentLang() : "fa";
       const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&q=${encodeURIComponent(
         query
       )}&accept-language=${lang}&limit=6&countrycodes=ir&viewbox=${IRAN_VIEWBOX}&bounded=1`;
@@ -160,7 +160,7 @@
     } catch (e) {
       if (requestId !== searchRequestId) return;
       const { searchResults } = els();
-      const t = window.KhorshidI18n ? window.KhorshidI18n.t : (k) => k;
+      const t = window.BazaarI18n ? window.BazaarI18n.t : (k) => k;
       if (searchResults) {
         const isDark = document.documentElement.classList.contains("dark");
         searchResults.innerHTML = `<li class="px-3.5 py-2.5" style="color:${isDark ? "#fb7185" : "#e11d48"}">${
@@ -233,7 +233,7 @@
       );
     }
 
-    window.KhorshidMap = {
+    window.BazaarMap = {
       // Returns { lat, lng, address } for the confirmed pin, or null if the
       // customer hasn't placed one yet.
       getLocation: () => currentLocation,

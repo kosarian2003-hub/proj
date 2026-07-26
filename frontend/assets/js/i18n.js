@@ -6,7 +6,7 @@
  *   <span data-i18n-toman>48500000</span>  -> formatted with locale-aware digits + currency word
  */
 (function () {
-  const STORAGE_KEY = "khorshid_lang"; // "fa" | "en"
+  const STORAGE_KEY = "bazaar_lang"; // "fa" | "en"
   const DEFAULT_LANG = "fa";
   let dict = {};
 
@@ -27,7 +27,7 @@
       const val = get(el.getAttribute("data-i18n-aria-label"));
       if (val !== null) el.setAttribute("aria-label", val);
     });
-    document.dispatchEvent(new CustomEvent("khorshid:translated"));
+    document.dispatchEvent(new CustomEvent("bazaar:translated"));
   }
 
   function setDirection(lang) {
@@ -45,7 +45,7 @@
     });
   }
 
-  window.KhorshidI18n = {
+  window.BazaarI18n = {
     currentLang: () => localStorage.getItem(STORAGE_KEY) || DEFAULT_LANG,
     t: get,
     setLanguage: async function (lang) {
@@ -55,12 +55,12 @@
   };
 
   document.addEventListener("DOMContentLoaded", () => {
-    loadLang(window.KhorshidI18n.currentLang());
+    loadLang(window.BazaarI18n.currentLang());
 
     document.querySelectorAll("[data-lang-toggle]").forEach((btn) => {
       btn.addEventListener("click", () => {
-        const next = window.KhorshidI18n.currentLang() === "fa" ? "en" : "fa";
-        window.KhorshidI18n.setLanguage(next);
+        const next = window.BazaarI18n.currentLang() === "fa" ? "en" : "fa";
+        window.BazaarI18n.setLanguage(next);
       });
     });
   });

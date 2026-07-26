@@ -28,7 +28,7 @@
     btn.tabIndex = -1;
     btn.setAttribute("aria-label", "toggle password visibility");
     btn.className =
-      "absolute inset-y-0 end-1.5 my-1 grid w-8 place-items-center rounded-lg text-khorshid-500 hover:bg-khorshid-100 dark:text-khorshid-300 dark:hover:bg-white/10";
+      "absolute inset-y-0 end-1.5 my-1 grid w-8 place-items-center rounded-lg text-bazaar-500 hover:bg-bazaar-100 dark:text-bazaar-300 dark:hover:bg-white/10";
     btn.innerHTML = EYE_OPEN;
 
     btn.addEventListener("click", () => {
