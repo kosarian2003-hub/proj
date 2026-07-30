@@ -10,9 +10,6 @@
     pending_payment: "در انتظار پرداخت", paid: "پرداخت‌شده", shipped: "ارسال‌شده",
     delivered: "تحویل داده‌شده", cancelled: "لغو شده",
   };
-  const REPAIR_STATUSES = ["new", "in_progress", "done", "cancelled"];
-  const REPAIR_STATUS_LABELS = { new: "ثبت شده", in_progress: "در حال بررسی", done: "انجام شده", cancelled: "لغو شده" };
-
   function statusSelect(current, options, labels, onChange) {
     const select = document.createElement("select");
     select.className = "rounded-lg border border-bazaar-200 bg-white px-2 py-1 text-xs text-bazaar-900 dark:border-white/10 dark:bg-bazaar-800 dark:text-bazaar-100";
@@ -43,7 +40,6 @@
       summaryCard("سفارش‌های پرداخت‌شده", res.paid_orders),
       summaryCard("سفارش‌های در انتظار", res.pending_orders),
       summaryCard("ارزش انبار (تومان)", formatToman(res.inventory_value_toman)),
-      summaryCard("تعمیرات باز", res.open_repairs),
       summaryCard("ناموجود", res.out_of_stock_products.length, res.out_of_stock_products.length ? "text-rose-600" : ""),
       summaryCard("موجودی کم (≤۳)", res.low_stock_products.length, res.low_stock_products.length ? "text-amber-600" : ""),
       summaryCard("تخفیف اعطاشده (تومان)", formatToman(res.discounts_given_toman)),
@@ -82,30 +78,6 @@
       statusCell.appendChild(
         statusSelect(o.status, ORDER_STATUSES, ORDER_STATUS_LABELS, async (newStatus) => {
           await BazaarAPI.post(`/api/admin/orders/${o.id}/status`, { status: newStatus });
-          loadSummary();
-        })
-      );
-      tbody.appendChild(tr);
-    });
-  }
-
-  async function loadRepairs() {
-    const res = await BazaarAPI.get("/api/admin/repairs");
-    if (!res.ok) return;
-    const tbody = document.getElementById("repairs-tbody");
-    tbody.innerHTML = "";
-    res.repairs.forEach((r) => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="px-4 py-3">${r.name}</td>
-        <td class="px-4 py-3 font-mono text-xs">${r.phone}</td>
-        <td class="px-4 py-3">${r.device_type}</td>
-        <td class="px-4 py-3 text-xs text-bazaar-600 dark:text-bazaar-400">${r.issue}</td>
-        <td class="px-4 py-3 text-xs text-bazaar-500">${new Date(r.created_at).toLocaleDateString("fa-IR")}</td>
-        <td class="px-4 py-3"></td>`;
-      tr.querySelector("td:last-child").appendChild(
-        statusSelect(r.status, REPAIR_STATUSES, REPAIR_STATUS_LABELS, async (newStatus) => {
-          await BazaarAPI.post(`/api/admin/repairs/${r.id}/status`, { status: newStatus });
           loadSummary();
         })
       );
@@ -407,7 +379,6 @@
     setupBlockDateForm();
     loadSummary();
     loadOrders();
-    loadRepairs();
     loadCoupons();
     loadBlockedDates();
     loadUsers();

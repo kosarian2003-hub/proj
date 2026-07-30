@@ -13,8 +13,8 @@
     theme: {
       extend: {
         colors: {
-          bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' },
-          brass: { 500:'#AD8A55', 400:'#C7A96F' },
+          bazaar: { 950:'#1C140D', 900:'#2E2015', 800:'#43301E', 700:'#5C4229', 600:'#7A5C3C', 500:'#9C7C52', 400:'#C0A576', 300:'#DCC9A0', 200:'#EDE0C4', 100:'#F6EEDC', 50:'#FCF8EF' },
+          brass: { 700:'#8A6A3A', 600:'#9C7A46', 500:'#B8935A', 400:'#D4B678', 300:'#E4CDA0' }, forest: { 900:'#0E1B12', 800:'#142519', 700:'#1B3327', 600:'#234230', 500:'#33573F', 400:'#4F7A5E', 300:'#7FA184', 100:'#DCE6DC' }, oxblood: { 800:'#3A1212', 700:'#4A1717', 600:'#62201F', 500:'#7D2E2E', 400:'#A24B4B', 300:'#C77E7E' },
         },
         fontFamily: {
           display: ['Amiri', 'serif'],
@@ -37,20 +37,20 @@
 <body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
 <header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
-    <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400">
+  <div class="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-3.5">
+    <a href="index.html" class="col-start-1 flex items-center gap-2.5 justify-self-start">
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-forest-700 text-brass-400">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
       <span>
         <span class="block font-display text-lg font-extrabold tracking-tight text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
-        <span class="block text-[11px] text-bazaar-500 dark:text-bazaar-300" data-i18n="brand_sub">توزیع و تعمیرات لوازم خانگی</span>
+        <span class="block text-[11px] text-bazaar-500 dark:text-bazaar-300" data-i18n="brand_sub">توزیع لوازم خانگی</span>
       </span>
     </a>
-    <nav class="hidden items-center gap-7 text-sm font-medium md:flex">
+    <nav class="col-start-2 hidden items-center justify-self-center gap-7 text-sm font-medium md:flex">
       <a href="index.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.home">خانه</a>
       <a href="products.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.products">محصولات</a>
-      <a href="repair.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.repair">تعمیرات</a>
+      <a href="about.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.about">درباره ما</a>
       <a href="orders.html" data-auth-user class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.my_orders">سفارش‌های من</a>
       <a href="admin.html" data-admin-only class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.admin">پنل مدیریت</a>
       <a href="payment.html" class="relative text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300">
@@ -58,7 +58,7 @@
         <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[10px] font-bold text-bazaar-950">0</span>
       </a>
     </nav>
-    <div class="flex items-center gap-2">
+    <div class="col-start-3 flex items-center gap-2 justify-self-end">
       <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
@@ -66,10 +66,10 @@
         <span data-theme-icon>🌙</span>
       </button>
       <a href="login.html" data-auth-guest class="hidden rounded-full px-3 py-1.5 text-sm font-medium text-bazaar-700 hover:text-bazaar-900 dark:text-bazaar-300" data-i18n="nav.login">ورود</a>
-      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-bazaar-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-bazaar-800" data-i18n="nav.signup">ثبت‌نام</a>
+      <a href="signup.html" data-auth-guest class="hidden rounded-full bg-forest-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-forest-800" data-i18n="nav.signup">ثبت‌نام</a>
       <div data-auth-user data-auth-flex="flex" class="hidden items-center gap-2">
         <a href="account.html" class="flex items-center gap-2" title="حساب کاربری من">
-          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-xs font-bold text-white"></span>
+          <span data-user-avatar class="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-forest-700 text-xs font-bold text-white"></span>
           <span data-user-name class="max-w-[7rem] truncate text-sm font-medium text-bazaar-800 dark:text-bazaar-200"></span>
         </a>
         <button data-logout class="text-xs text-bazaar-500 hover:text-bazaar-800 dark:text-bazaar-400" data-i18n="nav.logout">خروج</button>
@@ -82,7 +82,7 @@
   <div data-mobile-menu class="hidden border-t border-bazaar-100 px-5 py-4 md:hidden dark:border-white/5">
     <div class="flex flex-col gap-3 text-sm font-medium">
       <a href="index.html" data-i18n="nav.home">خانه</a>
-      <a href="repair.html" data-i18n="nav.repair">تعمیرات</a>
+      <a href="about.html" data-i18n="nav.about">درباره ما</a>
       <a href="payment.html" data-i18n="nav.cart">سبد خرید</a>
       <a href="orders.html" data-auth-user class="hidden" data-i18n="nav.my_orders">سفارش‌های من</a>
       <a href="admin.html" data-admin-only class="hidden" data-i18n="nav.admin">پنل مدیریت</a>
@@ -90,7 +90,7 @@
       <a href="signup.html" data-auth-guest data-i18n="nav.signup">ثبت‌نام</a>
       <div data-auth-user data-auth-flex="flex" class="hidden items-center gap-2">
         <a href="account.html" class="flex flex-1 items-center gap-2 min-w-0">
-          <span data-user-avatar class="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-[11px] font-bold text-white"></span>
+          <span data-user-avatar class="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-forest-700 text-[11px] font-bold text-white"></span>
           <span data-user-name class="flex-1 truncate text-sm font-medium"></span>
         </a>
         <button data-logout class="text-xs text-rose-500" data-i18n="nav.logout">خروج</button>
@@ -120,7 +120,7 @@
   <!-- not found / error -->
   <div id="product-error" class="hidden py-24 text-center">
     <p class="text-sm text-rose-600 dark:text-rose-400" data-i18n="product_detail_page.not_found">این محصول یافت نشد.</p>
-    <a href="products.html" class="mt-4 inline-block rounded-full bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="product_detail_page.back_to_products">بازگشت به محصولات</a>
+    <a href="products.html" class="mt-4 inline-block rounded-full bg-forest-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-forest-800" data-i18n="product_detail_page.back_to_products">بازگشت به محصولات</a>
   </div>
 
   <!-- main content, filled by product.js -->
@@ -129,7 +129,7 @@
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-2">
       <!-- gallery -->
       <div>
-        <div class="flex aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-bazaar-100 bg-gradient-to-br from-bazaar-50 to-bazaar-100 dark:border-white/10 dark:from-bazaar-800 dark:to-bazaar-900">
+        <div class="flex h-[25vh] sm:h-auto sm:aspect-[4/3] items-center justify-center overflow-hidden rounded-2xl border border-bazaar-100 bg-gradient-to-br from-bazaar-50 to-bazaar-100 dark:border-white/10 dark:from-bazaar-800 dark:to-bazaar-900">
           <img id="gallery-main-img" src="" alt="" class="h-full w-full object-cover" />
         </div>
         <div id="gallery-thumbs" class="mt-3 flex gap-2.5 overflow-x-auto pb-1"></div>
@@ -159,7 +159,7 @@
             <span id="qty-value" class="w-6 text-center font-mono text-sm">1</span>
             <button id="qty-increment" type="button" class="grid h-7 w-7 place-items-center rounded-lg text-bazaar-700 hover:bg-bazaar-100 dark:text-bazaar-300 dark:hover:bg-white/5">+</button>
           </div>
-          <button id="add-to-cart-btn" class="flex-1 rounded-xl bg-bazaar-700 py-3 text-sm font-semibold text-white transition hover:bg-bazaar-800 disabled:cursor-not-allowed disabled:bg-bazaar-200 disabled:text-bazaar-500 dark:bg-bazaar-600 dark:hover:bg-bazaar-500 dark:disabled:bg-bazaar-800">
+          <button id="add-to-cart-btn" class="flex-1 rounded-xl bg-forest-700 py-3 text-sm font-semibold text-white transition hover:bg-forest-800 disabled:cursor-not-allowed disabled:bg-bazaar-200 disabled:text-bazaar-500 dark:bg-forest-600 dark:hover:bg-forest-500 dark:disabled:bg-forest-800">
             <span data-i18n="products_page.add_to_cart">افزودن به سبد خرید</span>
           </button>
         </div>

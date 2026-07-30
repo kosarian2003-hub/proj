@@ -117,17 +117,6 @@ CREATE TABLE IF NOT EXISTS coupon_usages (
     used_at TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS repairs (
-    id TEXT PRIMARY KEY,
-    user_id TEXT,
-    name TEXT NOT NULL,
-    phone TEXT NOT NULL,
-    device_type TEXT NOT NULL,
-    issue TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'new',
-    created_at TEXT NOT NULL
-);
-
 CREATE TABLE IF NOT EXISTS reviews (
     id TEXT PRIMARY KEY,
     product_id INTEGER NOT NULL,
@@ -618,40 +607,6 @@ def block_delivery_date(date_str, reason=None):
 def unblock_delivery_date(date_str):
     with get_conn() as conn:
         conn.execute("DELETE FROM blocked_delivery_dates WHERE date = ?", (date_str,))
-
-
-# --------------------------------------------------------------------------- #
-# repairs
-# --------------------------------------------------------------------------- #
-def create_repair(repair):
-    with get_conn() as conn:
-        conn.execute(
-            "INSERT INTO repairs (id, user_id, name, phone, device_type, issue, status, created_at) "
-            "VALUES (?,?,?,?,?,?,?,?)",
-            (
-                repair["id"], repair.get("user_id"), repair["name"], repair["phone"],
-                repair["device_type"], repair["issue"], "new", repair["created_at"],
-            ),
-        )
-
-
-def get_all_repairs():
-    with get_conn() as conn:
-        rows = conn.execute("SELECT * FROM repairs ORDER BY created_at DESC").fetchall()
-    return [dict(r) for r in rows]
-
-
-def get_repairs_for_user(user_id):
-    with get_conn() as conn:
-        rows = conn.execute(
-            "SELECT * FROM repairs WHERE user_id = ? ORDER BY created_at DESC", (user_id,)
-        ).fetchall()
-    return [dict(r) for r in rows]
-
-
-def set_repair_status(repair_id, status):
-    with get_conn() as conn:
-        conn.execute("UPDATE repairs SET status = ? WHERE id = ?", (status, repair_id))
 
 
 # --------------------------------------------------------------------------- #

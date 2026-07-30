@@ -10,7 +10,7 @@
   tailwind.config = {
     darkMode: 'class',
     theme: { extend: {
-      colors: { bazaar: { 950:'#131F17', 900:'#1E2F22', 800:'#2A4030', 700:'#3B5942', 600:'#55735C', 500:'#7C9382', 400:'#9AB198', 300:'#BFCCB9', 200:'#DCDDB9', 100:'#EAE3D2', 50:'#FAF6EC' }, brass: { 500:'#AD8A55', 400:'#C7A96F' } },
+      colors: { bazaar: { 950:'#1C140D', 900:'#2E2015', 800:'#43301E', 700:'#5C4229', 600:'#7A5C3C', 500:'#9C7C52', 400:'#C0A576', 300:'#DCC9A0', 200:'#EDE0C4', 100:'#F6EEDC', 50:'#FCF8EF' }, brass: { 700:'#8A6A3A', 600:'#9C7A46', 500:'#B8935A', 400:'#D4B678', 300:'#E4CDA0' }, forest: { 900:'#0E1B12', 800:'#142519', 700:'#1B3327', 600:'#234230', 500:'#33573F', 400:'#4F7A5E', 300:'#7FA184', 100:'#DCE6DC' }, oxblood: { 800:'#3A1212', 700:'#4A1717', 600:'#62201F', 500:'#7D2E2E', 400:'#A24B4B', 300:'#C77E7E' } },
       fontFamily: { display: ['Amiri','serif'], body: ['Vazirmatn','sans-serif'] },
     } },
   }
@@ -24,22 +24,35 @@
   .font-mono { font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: plaintext; }
   #delivery-map { height: 320px; border-radius: 1rem; z-index: 0; }
   #map-search-results { background-color: #FAF6EC; }
-  #map-search-results li { color: #1E2F22; }
-  html.dark #map-search-results { background-color: #1E2F22; }
+  #map-search-results li { color: #2E2015; }
+  html.dark #map-search-results { background-color: #2E2015; }
   html.dark #map-search-results li { color: #EAE3D2; }
 </style>
 </head>
 <body class="bg-bazaar-50 text-bazaar-950 antialiased dark:bg-bazaar-950 dark:text-bazaar-100 pb-16 md:pb-0">
 
 <header class="sticky top-0 z-40 border-b border-bazaar-100/80 bg-bazaar-50/90 backdrop-blur dark:border-white/5 dark:bg-bazaar-950/90">
-  <div class="mx-auto flex max-w-7xl items-center justify-between px-5 py-3.5">
-    <a href="index.html" class="flex items-center gap-2.5">
-      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-bazaar-700 text-brass-400">
+  <div class="mx-auto grid max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 py-3.5">
+    <a href="index.html" class="col-start-1 flex items-center gap-2.5 justify-self-start">
+      <span class="flex h-9 w-9 items-center justify-center rounded-full bg-forest-700 text-brass-400">
         <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M 12 2.7 L 13.65 8.03 L 18.58 5.42 L 15.97 10.35 L 21.3 12 L 15.97 13.65 L 18.58 18.58 L 13.65 15.97 L 12 21.3 L 10.35 15.97 L 5.42 18.58 L 8.03 13.65 L 2.7 12 L 8.03 10.35 L 5.42 5.42 L 10.35 8.03 Z"/></svg>
       </span>
       <span class="font-display text-lg font-extrabold text-bazaar-900 dark:text-white" data-i18n="brand">بازاریو</span>
     </a>
-    <div class="flex items-center gap-2">
+
+    <nav class="col-start-2 hidden items-center justify-self-center gap-7 text-sm font-medium md:flex">
+      <a href="index.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.home">خانه</a>
+      <a href="products.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.products">محصولات</a>
+      <a href="about.html" class="text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.about">درباره ما</a>
+      <a href="orders.html" data-auth-user class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.my_orders">سفارش‌های من</a>
+      <a href="admin.html" data-admin-only class="hidden text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300" data-i18n="nav.admin">پنل مدیریت</a>
+      <a href="payment.html" class="relative text-bazaar-700/80 hover:text-bazaar-700 dark:text-bazaar-300">
+        <span data-i18n="nav.cart">سبد خرید</span>
+        <span data-cart-count class="hidden absolute -top-2 -end-3 flex h-4 min-w-4 items-center justify-center rounded-full bg-brass-500 px-1 text-[10px] font-bold text-bazaar-950">0</span>
+      </a>
+    </nav>
+
+    <div class="col-start-3 flex items-center gap-2 justify-self-end">
       <button data-lang-toggle class="rounded-full border border-bazaar-200 px-3 py-1.5 text-xs font-semibold text-bazaar-700 hover:bg-bazaar-100 dark:border-white/10 dark:text-bazaar-200 dark:hover:bg-white/5">
         <span data-lang-label>English</span>
       </button>
@@ -62,7 +75,7 @@
 
       <div class="mt-5 flex items-center gap-4">
         <div class="relative shrink-0">
-          <span id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-bazaar-700 text-2xl font-bold text-white"></span>
+          <span id="avatar-preview" class="flex h-20 w-20 items-center justify-center overflow-hidden rounded-full bg-forest-700 text-2xl font-bold text-white"></span>
           <input id="avatar-input" type="file" accept="image/png,image/jpeg,image/webp,image/gif" class="hidden">
         </div>
         <div>
@@ -86,7 +99,7 @@
         </div>
         <p id="profile-message" class="hidden sm:col-span-2 text-xs"></p>
         <div class="sm:col-span-2">
-          <button type="submit" class="rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.save_button">ذخیره تغییرات</button>
+          <button type="submit" class="rounded-xl bg-forest-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-forest-800" data-i18n="account_page.save_button">ذخیره تغییرات</button>
         </div>
       </form>
     </div>
@@ -117,7 +130,7 @@
         </div>
       </div>
       <p id="address-message" class="mt-3 hidden text-xs"></p>
-      <button id="address-save" type="button" class="mt-4 rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.save_address_button">ذخیره آدرس</button>
+      <button id="address-save" type="button" class="mt-4 rounded-xl bg-forest-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-forest-800" data-i18n="account_page.save_address_button">ذخیره آدرس</button>
     </div>
 
     <!-- SECURITY: change password -->
@@ -138,7 +151,7 @@
         </div>
         <p id="password-message" class="hidden sm:col-span-2 text-xs"></p>
         <div class="sm:col-span-2">
-          <button type="submit" class="rounded-xl bg-bazaar-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-bazaar-800" data-i18n="account_page.change_password_button">تغییر رمز عبور</button>
+          <button type="submit" class="rounded-xl bg-forest-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-forest-800" data-i18n="account_page.change_password_button">تغییر رمز عبور</button>
         </div>
       </form>
     </div>

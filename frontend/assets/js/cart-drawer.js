@@ -31,7 +31,7 @@
     drawerEl.innerHTML = `
       <div data-cart-backdrop class="fixed inset-0 z-[60] bg-bazaar-950/50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
       <aside data-cart-panel
-        class="fixed inset-y-0 left-0 z-[70] flex w-[88vw] max-w-sm -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-bazaar-950"
+        class="fixed inset-y-0 left-0 z-[70] flex w-[78vw] max-w-xs -translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300 ease-out dark:bg-bazaar-950"
         role="dialog" aria-modal="true" aria-label="سبد خرید">
         <div class="flex items-center justify-between border-b border-bazaar-100 px-5 py-4 dark:border-white/10">
           <h2 class="font-display text-base font-extrabold text-bazaar-900 dark:text-white" data-cart-drawer-title>سبد خرید</h2>

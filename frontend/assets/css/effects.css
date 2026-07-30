@@ -29,7 +29,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   height: 2.5px;
   z-index: 60;
   width: 0%;
-  background: linear-gradient(90deg, #3B5942, #AD8A55 65%, #C7A96F);
+  background: linear-gradient(90deg, #1B3327, #B8935A 65%, #D4B678);
   transform-origin: 0 0;
   transition: width 80ms linear;
   pointer-events: none;
@@ -37,7 +37,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 /* ---------- header elevation on scroll ---------- */
 header.is-elevated {
-  box-shadow: 0 8px 24px -16px rgba(30, 47, 34, 0.35);
+  box-shadow: 0 8px 24px -16px rgba(28, 20, 13, 0.35);
 }
 .dark header.is-elevated {
   box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.55);
@@ -85,3 +85,120 @@ header.is-elevated {
     transform: none !important;
   }
 }
+
+/* ============================================================
+   Velvet Library — luxury texture system
+   Palette: parchment cream (base/light), walnut coffee (base/dark),
+   forest green + antique brass + oxblood (accents).
+   These are additive utility classes — apply on top of the
+   existing bazaar/brass/forest/oxblood Tailwind colors.
+   ============================================================ */
+
+:root {
+  --vl-parchment: #FCF8EF;
+  --vl-parchment-deep: #EDE0C4;
+  --vl-walnut: #2E2015;
+  --vl-walnut-deep: #1C140D;
+  --vl-forest: #1B3327;
+  --vl-forest-deep: #0E1B12;
+  --vl-oxblood: #4A1717;
+  --vl-brass: #B8935A;
+  --vl-brass-light: #E4CDA0;
+}
+
+/* ---------- page-wide paper grain (light) / linen grain (dark) ----------
+   A very faint fibre texture over the whole page so flat colour blocks
+   never read as plain digital fills. Sits behind all content. */
+body {
+  position: relative;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+.dark body {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)' opacity='0.09'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* ---------- velvet panel ----------
+   Deep tinted surface with a soft diagonal sheen + fine nap noise,
+   the way light catches velvet fabric. Use for hero backdrops,
+   feature banners, or dark promo cards. Pass a tint via
+   data-tint="forest|oxblood|walnut" (defaults to forest). */
+.velvet-panel {
+  position: relative;
+  background-color: var(--vl-forest);
+  background-image:
+    radial-gradient(140% 100% at 15% 0%, rgba(255,255,255,0.10), transparent 55%),
+    radial-gradient(120% 90% at 85% 100%, rgba(0,0,0,0.35), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='v'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23v)' opacity='0.12'/%3E%3C/svg%3E");
+  color: var(--vl-parchment);
+}
+.velvet-panel[data-tint="oxblood"] { background-color: var(--vl-oxblood); }
+.velvet-panel[data-tint="walnut"]  { background-color: var(--vl-walnut); }
+
+/* ---------- wood grain ----------
+   Walnut streaks for dividers, footers, product-card frames. */
+.wood-grain {
+  background-color: #43301E;
+  background-image:
+    repeating-linear-gradient(89deg,
+      rgba(0,0,0,0.16) 0px, rgba(0,0,0,0.16) 1px,
+      transparent 3px, transparent 9px),
+    repeating-linear-gradient(91deg,
+      rgba(255,255,255,0.04) 0px, rgba(255,255,255,0.04) 1px,
+      transparent 5px, transparent 14px),
+    linear-gradient(180deg, #5C4229, #3A2A1A);
+}
+
+/* ---------- brass edge / shimmer ----------
+   Metallic gradient for borders, dividers and premium badges.
+   .brass-shimmer animates a moving highlight across it. */
+.brass-edge {
+  border-image: linear-gradient(120deg, #8A6A3A, #E4CDA0 45%, #9C7A46 55%, #E4CDA0 80%, #8A6A3A) 1;
+}
+.brass-shimmer {
+  background: linear-gradient(115deg, #8A6A3A 20%, #E4CDA0 45%, #B8935A 55%, #E4CDA0 70%, #8A6A3A 90%);
+  background-size: 220% 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .brass-shimmer:hover, .brass-shimmer:focus-visible {
+    animation: brassSweep 1.6s ease-in-out;
+  }
+}
+@keyframes brassSweep {
+  0% { background-position: 100% 0; }
+  100% { background-position: -20% 0; }
+}
+
+/* ---------- paper card ----------
+   Light parchment surface with a whisper of fibre texture — use
+   instead of a flat white/cream card for a "bound page" feel. */
+.paper-card {
+  background-color: var(--vl-parchment);
+  background-image:
+    radial-gradient(160% 120% at 100% 0%, rgba(184,147,90,0.07), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)' opacity='0.045'/%3E%3C/svg%3E");
+}
+.dark .paper-card {
+  background-color: var(--vl-walnut);
+  background-image:
+    radial-gradient(160% 120% at 100% 0%, rgba(184,147,90,0.06), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='p2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p2)' opacity='0.08'/%3E%3C/svg%3E");
+}
+
+/* ---------- spine accent ----------
+   Tiny three-colour bar echoing a leather book spine — forest,
+   brass, oxblood — for use under headings/eyebrows. Decorative only. */
+.spine-accent {
+  display: inline-flex;
+  height: 3px;
+  width: 46px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.spine-accent > span { flex: 1; }
+.spine-accent > span:nth-child(1) { background: var(--vl-forest); }
+.spine-accent > span:nth-child(2) { background: var(--vl-brass); }
+.spine-accent > span:nth-child(3) { background: var(--vl-oxblood); }

@@ -1,5 +1,5 @@
 """
-Khorshid (خورشید) — Home Appliance Distribution & Repair Co.
+Khorshid (خورشید) — Home Appliance Distribution Co.
 Backend API — Flask
 
 Responsibilities
@@ -11,10 +11,10 @@ Responsibilities
 - Auth (signup / login / logout / forgot-password) backed by SQLite (db.py),
   password hashed with werkzeug's generator. A small brute-force guard locks an
   account for 15 minutes after 5 bad password attempts.
-- Orders, invoices, coupons and repair requests all live in SQLite now (see
+- Orders, invoices and coupons all live in SQLite now (see
   db.py) instead of flat JSON files — same data, real transactions/indexes.
 - Admin area (session user with is_admin=1): view/update orders, manage
-  coupons, view repair requests, see the accounting summary. A default admin
+  coupons, see the accounting summary. A default admin
   account is created on first run — see README for the credentials and how
   to change them.
 - Shipping rule: a customer's first order ships free; every order after that
@@ -776,57 +776,7 @@ def accounting_summary():
         "inventory_value_toman": inventory_value,
         "out_of_stock_products": out_of_stock,
         "low_stock_products": low_stock,
-        "open_repairs": len([r for r in db.get_all_repairs() if r["status"] not in ("done", "cancelled")]),
     })
-
-
-# --------------------------------------------------------------------------- #
-# repairs
-# --------------------------------------------------------------------------- #
-@app.route("/api/repairs", methods=["POST"])
-def create_repair_route():
-    body = request.get_json(force=True, silent=True) or {}
-    name = (body.get("name") or "").strip()
-    phone = (body.get("phone") or "").strip()
-    device_type = (body.get("device_type") or "").strip()
-    issue = (body.get("issue") or "").strip()
-    if not name or not phone or not device_type or not issue:
-        return jsonify({"ok": False, "error": "invalid_input"}), 400
-
-    repair = {
-        "id": str(uuid.uuid4())[:8],
-        "user_id": session.get("user_id"),
-        "name": name, "phone": phone, "device_type": device_type, "issue": issue,
-        "created_at": datetime.utcnow().isoformat(),
-    }
-    db.create_repair(repair)
-    return jsonify({"ok": True, "repair": repair})
-
-
-@app.route("/api/repairs/mine", methods=["GET"])
-def my_repairs():
-    uid = session.get("user_id")
-    if not uid:
-        return jsonify({"ok": False, "error": "login_required"}), 401
-    return jsonify({"ok": True, "repairs": db.get_repairs_for_user(uid)})
-
-
-@app.route("/api/admin/repairs", methods=["GET"])
-@require_admin
-def admin_repairs():
-    return jsonify({"ok": True, "repairs": db.get_all_repairs()})
-
-
-@app.route("/api/admin/repairs/<repair_id>/status", methods=["POST"])
-@require_admin
-def admin_update_repair_status(repair_id):
-    body = request.get_json(force=True, silent=True) or {}
-    status = (body.get("status") or "").strip()
-    allowed = {"new", "in_progress", "done", "cancelled"}
-    if status not in allowed:
-        return jsonify({"ok": False, "error": "invalid_status"}), 400
-    db.set_repair_status(repair_id, status)
-    return jsonify({"ok": True})
 
 
 # --------------------------------------------------------------------------- #
